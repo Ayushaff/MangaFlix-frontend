@@ -1,0 +1,1 @@
+Digidev-mangareader-app
