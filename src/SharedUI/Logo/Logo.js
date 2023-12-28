@@ -9,18 +9,18 @@ const Logo = ({ handleMenu, ico }) => {
         <div id="logo" className={ico.type === 'open' ? styles.logo : styles.logo + " " + styles.logo_side_main}>
             {ico.side === 'left'
                 ? <>
-                  {ico.type === 'open' 
+                  {/* {ico.type === 'open' 
                     ? <MenuLinesIco onClick={handleMenu} />
                     : <MenuCrossIco onClick={handleMenu} /> 
-                  }
+                  } */}
                   <Link to={"/"}><h1>Digidev</h1></Link>
                   </>
                 : <>
                   <Link to={"/"}><h1>Digidev</h1></Link>
-                  { ico.type === 'close'
+                  {/* { ico.type === 'close'
                     ? <MenuCrossIco onClick={handleMenu} />
                     : <MenuLinesIco onClick={handleMenu} /> 
-                  }
+                  } */}
                   </>
             }
         </div>

@@ -22,34 +22,56 @@ const Banner = () => {
   }, []);
   return (
     <>
-      
-      <div className="bg-image" style={{
-        borderRadius : "20px",
-        color : "black",
-      }}>
-        <img 
+      <div
+        className="bg-image"
         style={{
-                  //position : 'relative',
-                  objectFit : 'cover',
-                  width : '100%',
-                  height : '100%',
-                  filter: 'blur(5px)',
-                  WebkitFilter: 'blur(5px)',
-                  opacity : '0.5',
-                  borderRadius : '20px'
-              }}
-        
-        src="https://comicvine.gamespot.com/a/uploads/scale_large/6/67663/7411447-11.jpg" ></img>
-        
+          borderRadius: "20px",
+          color: "black",
+        }}
+      >
+        <img
+          style={{
+            //position : 'relative',
+            objectFit: "cover",
+            width: "100%",
+            height: "100%",
+            filter: "blur(5px)",
+            WebkitFilter: "blur(5px)",
+            opacity: "0.5",
+            borderRadius: "20px",
+          }}
+          src="https://static.animecorner.me/2023/12/1702698978-96140-1024x576.jpg"
+        ></img>
       </div>
 
       <div className="bg-text">
-        <h1 style={{
-            color : "white"
-        }} >{title}</h1>
+        <h1
+          style={{
+            color: "white",
+          }}
+        >
+          {title}
+        </h1>
         <br></br>
-        <p>{description}</p>
+        <div
+          style={{
+            width: "75%",
+            height : "80px",
+            overflow: "hidden",
+            WebkitLineClamp : "4",
+          }}
+        >
+          <p>{description}</p>
+          
+        </div>
+        
+        <div style={{height:"50px"}}>
+        <button className="read-now-btn" >Read Now</button>
+        </div>
+        
+
       </div>
+      
     </>
 
     // <>
@@ -58,7 +80,6 @@ const Banner = () => {
     //     </div>
     //     <div className="banner">
 
-        
     //     <img style={{
     //         //position : 'relative',
     //         objectFit : 'cover',

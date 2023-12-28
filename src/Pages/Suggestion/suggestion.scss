@@ -63,9 +63,20 @@
     padding: 40px;
     top: 10%;
     display: -webkit-box;
-    //text-overflow: ellipsis;
-    overflow: hidden;
-    -webkit-line-clamp: 4;
+    height: 200px;
+    // text-overflow: ;
+    // overflow: hidden;
+    // -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     //text-align: center;
+}
+
+.read-now-btn {
+     position: absolute;
+     margin-top: 20px;
+    padding: 8px 24px;
+    background-color: yellow;
+    border : solid 4px white;
+    font-weight: bold;
+    border-radius: 50px;
 }
