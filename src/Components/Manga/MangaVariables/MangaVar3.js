@@ -31,14 +31,14 @@ const MangaVar3 = ({ manga, mangaCover }) => {
 
           <div className="chapter-item">
             <button
-              className="chapter-button"
+              className="chapter-button1"
               onClick={() => handleChapterClick(277)}
             >
               Chapter 277
             </button>
-            <div className="up-arrow-icon">&#9650;</div>
+
             <button
-              className="chapter-button"
+              className="chapter-button2"
               onClick={() => handleChapterClick(276)}
             >
               Chapter 276
