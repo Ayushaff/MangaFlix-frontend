@@ -21,7 +21,7 @@ const MangaVar3 = ({ manga, mangaCover }) => {
             alt=""
             draggable={false}
           />
-          {/* dont need flag */}
+          {/* don't need flag */}
           {/* <div className="flag-img-var2">
             <img src={flags[manga?.attributes?.originalLanguage]} alt="" />
           </div> */}
@@ -30,24 +30,28 @@ const MangaVar3 = ({ manga, mangaCover }) => {
           <h3>Eleceed</h3>
 
           <div className="chapter-item">
-            <button
-              className="chapter-button1"
-              onClick={() => handleChapterClick(277)}
-            >
-              Chapter 277
-            </button>
+            <div className="button-column">
+              <button
+                className="chapter-button1"
+                onClick={() => handleChapterClick(277)}
+              >
+                Chapter 277
+              </button>
 
-            <button
-              className="chapter-button2"
-              onClick={() => handleChapterClick(276)}
-            >
-              Chapter 276
-            </button>
-            <div className="date">Dec 19, 23</div>
+              <button
+                className="chapter-button2"
+                onClick={() => handleChapterClick(276)}
+              >
+                Chapter 276
+              </button>
+            </div>
+
+            <div className="date-column">
+              <div className="date1">Dec 19, 23</div>
+              <div className="date2">Dec 19, 23</div>
+            </div>
           </div>
         </div>
-        {/* <div className="manga-de-var2"></div> */}
-        {/* <p>{"Attack on titan final chapters part 3"}</p> */}
       </div>
     </>
   );
