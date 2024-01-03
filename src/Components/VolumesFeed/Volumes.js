@@ -32,7 +32,9 @@ const Volumes = ({ mangaId }) => {
         {
         mangaFeed.load.status === 'loading' ||  mangaFeed.load.status === '' ? <Spinner customStyle={{width: '50px', height: '50px'}} /> 
         :
-        <div className={styles.chapters}>
+        <div className={styles.chapters} style={{
+            border : "2px solid black"
+        }}>
             <div className={styles.controls_block}>
                 <input className="reg-button" type="button" value="Descending" />
                 <input className="reg-button" type="button" value="Collapse" />

@@ -63,7 +63,7 @@ const Suggestion = memo(() => {
           {recentlyAdded.load.status === "loading" ? (
             <Spinner customStyle={{ width: "50px", height: "50px" }} />
           ) : (
-            // <Slider>
+            <Slider>
             <MangaItems
               mangas={recentlyAdded?.data}
               Variant={MangaVar2}
@@ -74,7 +74,7 @@ const Suggestion = memo(() => {
                 height: "260px",
               }}
             />
-            // </Slider>
+            </Slider>
           )}
         </SuggestItem>
       </div > 
