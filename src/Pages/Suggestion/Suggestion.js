@@ -36,7 +36,7 @@ const Suggestion = memo(() => {
     dispatch(fetchSeasonal());
     dispatch(fetchLatestUpdates());
     dispatch(fetchRecentlyAdded());
-    console.log(recentlyAdded);
+    // console.log(recentlyAdded);
   }, []);
 
   return (

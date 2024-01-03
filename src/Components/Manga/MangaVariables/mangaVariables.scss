@@ -83,3 +83,38 @@
         }
     }
 }
+
+.manga-de-var3 {
+    p {
+        font-size: 12pt;
+        color: #242424;
+    }
+}
+
+.mangavar4-main{
+    border-bottom: 1px solid black;
+    padding: 10px 0px;
+    display: flex;
+    flex-direction: row;
+}
+
+.manga-img-var4 {
+    //position: relative;
+    width: 60px;
+    height: 90px;
+    //border-radius: 14px;
+    img {
+        width: 60px;
+        height: 90px;
+        //border-radius: 14px;
+    }
+
+    
+}
+
+.manga-de-var4 {
+    p {
+        font-size: 12pt;
+        color: #242424;
+    }
+}

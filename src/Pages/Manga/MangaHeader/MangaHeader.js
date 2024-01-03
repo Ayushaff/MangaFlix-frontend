@@ -17,12 +17,10 @@ const MangaHeader = memo(({ mangaInfo = {} }) => {
 
   const backImage = useMemo(() => {
     if (mangaInfo.data) {
-      const mangaCover = `https://uploads.mangadex.org/covers/${
-        mangaInfo.data.id
-      }/${
-        filterSomeAttribute(mangaInfo.data.relationships, "cover_art")
+      const mangaCover = `https://uploads.mangadex.org/covers/${mangaInfo.data.id
+        }/${filterSomeAttribute(mangaInfo.data.relationships, "cover_art")
           .attributes.fileName
-      }`;
+        }`;
       setMangaCoverUrl(mangaCover);
       return {
         backgroundImage: `url(${mangaCover})`,
@@ -32,7 +30,6 @@ const MangaHeader = memo(({ mangaInfo = {} }) => {
 
   return (
     <>
-    
       <div className="manga-header-box-main">
         <div
           className="manga-header-box"
@@ -53,12 +50,10 @@ const MangaHeader = memo(({ mangaInfo = {} }) => {
             <Bookmark />
             <BlackButtons />
           </div>
-          <div style={{ flex : "1"}}>
-          <MangaTitle mangaInfo={mangaInfo} />
-          <MangaVariablesStatus mangaInfo={mangaInfo} />
-
+          <div style={{ flex: "1" }}>
+            <MangaTitle mangaInfo={mangaInfo} />
+            <MangaVariablesStatus mangaInfo={mangaInfo} />
           </div>
-          
         </div>
         {/* <MangaVariablesStatus mangaInfo={mangaInfo} /> */}
       </div>
