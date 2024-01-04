@@ -30,7 +30,7 @@ const MangaHeader = memo(({ mangaInfo = {} }) => {
 
   return (
     <>
-      <div className="manga-header-box-main" >
+      <div className="manga-header-box-main" style={{color : theme.darkmode ? "white" : "black"}}>
         <div
           className="manga-header-box" style={{
             backgroundColor: theme.colors.body,
@@ -61,6 +61,7 @@ const MangaHeader = memo(({ mangaInfo = {} }) => {
 });
 
 const MangaTitle = memo(({ mangaInfo }) => {
+  const theme = useSelector((state) => state.theme);
   const enTitle = useMemo(() => {
     const en = mangaInfo?.data?.attributes?.title?.en;
     const ja = mangaInfo?.data?.attributes?.title?.["ja-ro"];
@@ -76,11 +77,11 @@ const MangaTitle = memo(({ mangaInfo }) => {
   }, [mangaInfo]);
 
   return (
-    <div className="manga-title" style={{ zIndex: "105" }}>
+    <div className="manga-title" style={{color: theme.darkmode ? "white" : "black" ,  zIndex: "105" }}>
       <div className="manga-title_wrapp">
         <div>
-          <p className="main-title">{enTitle}</p>
-          <p className="second-title">{alternative}</p>
+          <p className="main-title" style={{color: theme.darkmode ? "white" : "black"}}>{enTitle}</p>
+          <p className="second-title" style={{color: theme.darkmode ? "white" : "black"}}>{alternative}</p>
         </div>
         <MangaStatistics statistics={{}} />
       </div>

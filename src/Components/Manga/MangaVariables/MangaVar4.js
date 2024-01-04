@@ -2,12 +2,14 @@ import React, { useRef } from 'react';
 import { flags } from '../../../Assets/Svg/Flags';
 import Img from '../../../SharedUI/StyledComponents/Img/Img';
 import './mangaVariables.scss';
+import { useSelector } from 'react-redux';
 
 const MangaVar4 = ({ manga, mangaCover,idx }) => {
     const ref = useRef();
+    const theme = useSelector((state) => state.theme);
 
     return (
-        <div className="mangavar4-main" ref={ref}>
+        <div className="mangavar4-main" ref={ref} >
             <div className="counter">
                 {idx+1}
             </div>
@@ -19,7 +21,7 @@ const MangaVar4 = ({ manga, mangaCover,idx }) => {
                 </div> */}
             </div>
             <div className="manga-de-var4">
-                <p>{"Naruto and the Sage of Six Paths"}</p>
+                <p style={{color : theme.darkmode ? "white" : "black"}}>{"Naruto and the Sage of Six Paths"}</p>
             </div>
         </div>   
     );

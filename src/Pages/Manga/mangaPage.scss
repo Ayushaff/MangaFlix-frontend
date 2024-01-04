@@ -18,13 +18,13 @@
 
 .manga-header-box {
     border: 2px solid #5C8374;
-    border-radius: 10px;
+    border-radius: 6px;
     display: flex;
     flex-wrap: wrap;
     padding: 20px 10px;
     margin-left: 30px;
     margin-bottom: 30px;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .manga-header-box-1{
@@ -59,11 +59,28 @@
 }
 
 .more-info {
-    margin-top: 30px;
+    margin-top: 10px;
     margin-right:30px;
     padding: 10px 10px;
     border: 2px solid rgb(92, 131, 116);
-    border-radius: 10px;
+    border-radius: 6px;
+}
+
+.manga-top-bar{
+    background-color: white;
+    margin-left: 30px;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 6px;
+
+}
+
+.manga-top-bar1{
+    background-color: white;
+    margin-right: 30px;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 6px;
 }
 
 .manga-container {

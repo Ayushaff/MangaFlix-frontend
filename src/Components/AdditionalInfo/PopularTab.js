@@ -9,6 +9,7 @@ import MangaVar4 from "../Manga/MangaVariables/MangaVar4";
 import './popularTab.scss';
 
 const PopularTab = () =>{
+    const theme = useSelector((state) => state.theme);
     const dispatch = useDispatch();
     const seasonal = useSelector((state) => state.suggest.seasonal);
     const [mangaListCovers, setMangaListCovers] = useState({});
