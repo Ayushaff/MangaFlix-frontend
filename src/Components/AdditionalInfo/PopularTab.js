@@ -6,7 +6,7 @@ import {
   } from "../../Store/Slices/suggestSlice";
 import { useEffect, useState } from "react";
 import MangaVar4 from "../Manga/MangaVariables/MangaVar4";
-
+import './popularTab.scss';
 
 const PopularTab = () =>{
     const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const PopularTab = () =>{
 
     return (
        <>
-        <div className="popular-tab">
+        <div className="popular-tab" >
             {
                 seasonal.data?.map((item,i)=>{
                     return (

@@ -8,7 +8,9 @@ const MangaVar4 = ({ manga, mangaCover,idx }) => {
 
     return (
         <div className="mangavar4-main" ref={ref}>
-            {idx}
+            <div className="counter">
+                {idx+1}
+            </div>
             <div className="manga-img-var4">
                 <Img src={"https://comicvine.gamespot.com/a/uploads/scale_large/6/67663/4598258-70.jpg"} alt='' draggable={false} />
                 {/* dont need flag */}

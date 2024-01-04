@@ -49,9 +49,11 @@ const MainContainer = memo(({ children, mainClasses = '', containerClasses = '',
 
     return (
         <main className={mainClasses} style={{
-            backgroundColor : theme.colors.body,
+            background : "linear-gradient(180deg, "+theme.colors.trendingManga+" 25%, "+theme.colors.body+" 25%, "+theme.colors.body+" 100%)",
         }}>
+            
             <div className={containerClasses} >
+            
                 { children }
             </div>
         </main>

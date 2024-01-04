@@ -30,16 +30,11 @@ const MangaHeader = memo(({ mangaInfo = {} }) => {
 
   return (
     <>
-      <div className="manga-header-box-main">
+      <div className="manga-header-box-main" >
         <div
-          className="manga-header-box"
-          style={{
-            margin: "30px",
-            border: "2px solid #5C8374",
-            borderRadius: "10px",
-            padding: "20px 10px",
-          }}
-        >
+          className="manga-header-box" style={{
+            backgroundColor: theme.colors.body,
+          }}>
           <div className="manga-header-box-1">
             <Cover
               src={mangaCoverUrl}
