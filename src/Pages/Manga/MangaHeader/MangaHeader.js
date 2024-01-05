@@ -17,10 +17,12 @@ const MangaHeader = memo(({ mangaInfo = {} }) => {
 
   const backImage = useMemo(() => {
     if (mangaInfo.data) {
-      const mangaCover = `https://uploads.mangadex.org/covers/${mangaInfo.data.id
-        }/${filterSomeAttribute(mangaInfo.data.relationships, "cover_art")
+      const mangaCover = `https://uploads.mangadex.org/covers/${
+        mangaInfo.data.id
+      }/${
+        filterSomeAttribute(mangaInfo.data.relationships, "cover_art")
           .attributes.fileName
-        }`;
+      }`;
       setMangaCoverUrl(mangaCover);
       return {
         backgroundImage: `url(${mangaCover})`,
@@ -30,11 +32,16 @@ const MangaHeader = memo(({ mangaInfo = {} }) => {
 
   return (
     <>
-      <div className="manga-header-box-main" style={{color : theme.darkmode ? "white" : "black"}}>
+      <div
+        className="manga-header-box-main"
+        style={{ color: theme.darkmode ? "white" : "black" }}
+      >
         <div
-          className="manga-header-box" style={{
+          className="manga-header-box"
+          style={{
             backgroundColor: theme.colors.body,
-          }}>
+          }}
+        >
           <div className="manga-header-box-1">
             <Cover
               src={mangaCoverUrl}
@@ -45,7 +52,14 @@ const MangaHeader = memo(({ mangaInfo = {} }) => {
             <Bookmark />
             <BlackButtons />
           </div>
-          <div style={{ flex: "1" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              flex: "1",
+              justifyContent: "space-between",
+            }}
+          >
             <MangaTitle mangaInfo={mangaInfo} />
             <MangaVariablesStatus mangaInfo={mangaInfo} />
           </div>
@@ -77,13 +91,26 @@ const MangaTitle = memo(({ mangaInfo }) => {
   }, [mangaInfo]);
 
   return (
-    <div className="manga-title" style={{color: theme.darkmode ? "white" : "black" ,  zIndex: "105" }}>
+    <div
+      className="manga-title"
+      style={{ color: theme.darkmode ? "white" : "black", zIndex: "105" }}
+    >
       <div className="manga-title_wrapp">
         <div>
-          <p className="main-title" style={{color: theme.darkmode ? "white" : "black"}}>{enTitle}</p>
-          <p className="second-title" style={{color: theme.darkmode ? "white" : "black"}}>{alternative}</p>
+          <p
+            className="main-title"
+            style={{ color: theme.darkmode ? "white" : "black" }}
+          >
+            {enTitle}
+          </p>
+          <p
+            className="second-title"
+            style={{ color: theme.darkmode ? "white" : "black" }}
+          >
+            {alternative}
+          </p>
         </div>
-        <MangaStatistics statistics={{}} />
+        {/* <MangaStatistics statistics={{}} /> */}
       </div>
       <div
         style={{
@@ -92,6 +119,35 @@ const MangaTitle = memo(({ mangaInfo }) => {
         }}
       >
         {mangaInfo?.data?.attributes?.description?.en}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          margin: "30px 20px",
+        }}
+      >
+        <div style={{ display: "flex", flexDirection: "column" ,marginRight :"50px"}}>
+          <div style={{ display: "flex", flexDirection: "column"}}>
+            <p style={{color : theme.darkmode ? "white" : "black",}}><b>Updated On</b></p>
+            <p style={{color : theme.darkmode ? "white" : "black",}}>Jan 4, 2024</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column"}}>
+            <p style={{color : theme.darkmode ? "white" : "black",}}><b>Author</b></p>
+            <p style={{color : theme.darkmode ? "white" : "black",}}>Gege Akutami</p>
+          </div>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div style={{ display: "flex", flexDirection: "column"}}>
+            <p style={{color : theme.darkmode ? "white" : "black",}}><b>Artist</b></p>
+            <p style={{color : theme.darkmode ? "white" : "black",}}>Nagi</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column"}}>
+            <p style={{color : theme.darkmode ? "white" : "black",}}><b>Posted On</b></p>
+            <p style={{color : theme.darkmode ? "white" : "black",}}>May 17, 2024</p>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -110,6 +166,7 @@ const MangaIntroduction = memo(({ mangaInfo }) => {
 });
 
 const MangaVariablesStatus = memo(({ mangaInfo = {} }) => {
+  const theme = useSelector((state) => state.theme);
   const tags = useMemo(() => {
     if (mangaInfo.data) {
       return mangaInfo?.data?.attributes?.tags;
@@ -130,6 +187,16 @@ const MangaVariablesStatus = memo(({ mangaInfo = {} }) => {
 
   return (
     <div className="manga-var-status">
+      <div
+        style={{
+          color: theme.darkmode ? "white" : "black",
+          marginBottom: "8px",
+        }}
+      >
+        <p>
+          <b>Genres</b>
+        </p>
+      </div>
       <TagsStatus tags={tags} amount={20} />
       {/* <MangaStatus
         status={status}

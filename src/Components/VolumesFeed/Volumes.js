@@ -46,7 +46,7 @@ const Volumes = ({ mangaId }) => {
                     })
                 }
             </div>
-            <div className="page-block">
+            <div className="page-block" >
                 {
                     mangaFeed.load.status === 'resolved' ?
                     <Pagination pages={pages} currPage={currPage} step={step} setOffset={setOffset} setCurrPage={setCurrPage} />

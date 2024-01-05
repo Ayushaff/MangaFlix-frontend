@@ -358,7 +358,8 @@
 
 .manga-var-status {
     display: flex; 
-    align-items: center; 
+    flex-direction: column;
+    justify-content: flex-start;
     margin-top: 15px;
 }
 
