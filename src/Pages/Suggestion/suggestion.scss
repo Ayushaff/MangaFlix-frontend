@@ -29,6 +29,17 @@
     // width: 100%;
 }
 
+.latest-releases {
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    margin: 10px 10%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
 @media (max-width: 340px) {
     .suggest-item {
         margin-top: 10px;
