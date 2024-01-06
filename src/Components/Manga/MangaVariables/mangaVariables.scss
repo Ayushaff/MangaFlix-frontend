@@ -29,13 +29,13 @@
 
 .manga-img-var2 {
     position: relative;
-    width: 188px;
-    height: 260px;
-    border-radius: 14px;
+    width: 195px;
+    height: 273px;
+    border-radius: 4px;
     img {
-        width: 188px;
-        height: 260px;
-        border-radius: 14px;
+        width: 195px;
+        height: 273px;
+        border-radius: 4px;
     }
 
     .flag-img-var2 {
@@ -53,6 +53,7 @@
 }
 
 .manga-de-var2 {
+    width: 188px;
     p {
         font-size: 12pt;
         color: #242424;
@@ -68,13 +69,13 @@
 
 .manga-img-var3 {
     position: relative;
-    width: 140px;
-    height: 200px;
-    border-radius: 8px;
+    width: 160px;
+    height: 240px;
+    border-radius: 4px;
     img {
-        width: 140px;
-        height: 200px;
-        border-radius: 8px;
+        width: 160px;
+        height: 240px;
+        border-radius: 4px;
     }
 
     .flag-img-var3 {
@@ -92,7 +93,7 @@
 }
 
 .manga-de-var3 {
-    width: 128px;
+    width: 160px;
     p {
         font-size: 12pt;
         color: #242424;
@@ -101,7 +102,7 @@
 
 .manga-var3-button {
     border-radius: 8px;
-    width: 140px;
+    width: 160px;
     background-color: #092635;
     display: flex;
     flex-direction: row;

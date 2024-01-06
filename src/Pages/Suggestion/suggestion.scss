@@ -40,6 +40,19 @@
 
 }
 
+.trending {
+    height: 320px;
+    //background-color: blue;
+    justify-content: center;
+    margin: 0px 5%;
+    margin-bottom: 60px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow: hidden;
+
+}
+
 @media (max-width: 340px) {
     .suggest-item {
         margin-top: 10px;
