@@ -64,20 +64,20 @@ const Suggestion = memo(() => {
             <Spinner customStyle={{ width: "50px", height: "50px" }} />
           ) : (
             <Slider>
-            <MangaItems
-              mangas={recentlyAdded?.data}
-              Variant={MangaVar2}
-              Wrapp={SliderItem}
-              styles={{
-                display: "flex",
-                width: "188px",
-                height: "260px",
-              }}
-            />
+              <MangaItems
+                mangas={recentlyAdded?.data}
+                Variant={MangaVar2}
+                Wrapp={SliderItem}
+                styles={{
+                  display: "flex",
+                  width: "188px",
+                  height: "260px",
+                }}
+              />
             </Slider>
           )}
         </SuggestItem>
-      </div > 
+      </div>
 
       {/* <SuggestItem title="Latest Updates" link="">
 				<LatestUpdates chapters={latestUpdates?.data} />
@@ -85,23 +85,39 @@ const Suggestion = memo(() => {
 
       {/* <Banner></Banner> */}
 
-      <div style={{
+      <div style={{display: "flex", flexDirection: "row", flexWrap : "wrap",}}>
+        {recentlyAdded.load.status === "loading" ? (
+          <div>wait</div>
+        ) : (
+          recentlyAdded?.data.map((item) => {
+            return (
+              <div>
+                <MangaVar3 />
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      <div
+        style={{
           paddingLeft: "40px",
           paddingRight: "40px",
           paddingTop: "10px",
           paddingBottom: "20px",
-        }}>
+        }}
+      >
         <SuggestItem title="Latest Update" link="titles/recently">
           {recentlyAdded.load.status === "loading" ? (
             <Spinner customStyle={{ width: "50px", height: "50px" }} />
           ) : (
             // <Slider>
-              <MangaItems
-                mangas={recentlyAdded?.data}
-                Variant={MangaVar3}
-                Wrapp={SliderItem}
-                styles={{ display: "flex", width: "128px", height: "180px" }}
-              />
+            <MangaItems
+              mangas={recentlyAdded?.data}
+              Variant={MangaVar3}
+              Wrapp={SliderItem}
+              styles={{ display: "flex", width: "128px", height: "180px" }}
+            />
             // </Slider>
           )}
         </SuggestItem>
