@@ -22,7 +22,7 @@ const ChaptersTab = memo(({ mangaId, mangaInfo }) => {
 
           <MangaHeader mangaInfo={mangaInfo} />
 
-          <Volumes mangaId={mangaId} />
+          <Volumes mangaId={mangaId} mangaInfo={mangaInfo}/>
 
           {/* need to pass stuff */}
           {/* <RelatedSeries /> */}

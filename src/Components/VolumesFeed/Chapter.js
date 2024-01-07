@@ -16,7 +16,7 @@ const Chapter = ({ chapter, byUser = false, mangaInfo }) => {
   const navigate = useNavigate();
 
   const redirectToReader = () => {
-    navigate(`/chapter/${mangaInfo?.attributes.id}`);
+    navigate(`/chapter/${mangaInfo.data.id}`);
 }
 
   useEffect(() => {
