@@ -9,7 +9,7 @@ import { fetchMangaFeed } from '../../Store/Slices/mangaSlice';
 
 const step = 96;
 
-const Volumes = ({ mangaId }) => {
+const Volumes = ({ mangaId ,mangaInfo}) => {
     const [pages, setPages] = useState(1);
     const [currPage, setCurrPage] = useState(1);
     const [offset, setOffset] = useState(0);
@@ -41,7 +41,7 @@ const Volumes = ({ mangaId }) => {
                 {
                     mangaFeed?.data?.array?.map((volume, index) => {
                         return (
-                            <Volume key={Object.keys(volume)[0] + index} volume={volume} />
+                            <Volume key={Object.keys(volume)[0] + index} volume={volume} mangaInfo={mangaInfo}/>
                         )
                     })
                 }

@@ -10,13 +10,18 @@ import { filterSomeAttribute } from "../../Utils/filterAttribute";
 import Scanlation from "../../SharedUI/Community/Scanlation/Scanlation";
 import { useNavigate } from "react-router-dom";
 
-const Chapter = ({ chapter, byUser = false }) => {
+const Chapter = ({ chapter, byUser = false, mangaInfo }) => {
   const [chName, setChName] = useState("");
   const contentBlock = useRef(null);
+  const navigate = useNavigate();
+
+  const redirectToReader = () => {
+    navigate(`/chapter/${mangaInfo?.attributes.id}`);
+}
 
   useEffect(() => {
     if (chapter) setChName(Object.keys(chapter)[0]);
-    console.log(chapter);
+    //console.log(chapter[Object.keys(chapter)[0]][0].id);
     //console.log(Object.keys(chapter)[0]);
   }, [chapter]);
 
@@ -29,7 +34,7 @@ const Chapter = ({ chapter, byUser = false }) => {
     <div className={styles.chapters_block}>
       {byUser ? null : (
         <div className={styles.chapters_block_main}>
-          <div className={styles.title} onClick={() => handleChapter()}>
+          <div className={styles.title} onClick={() => redirectToReader()}>
             {Object.keys(chapter)[0]}
             <div></div>
           </div>
