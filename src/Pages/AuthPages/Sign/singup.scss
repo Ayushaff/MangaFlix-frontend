@@ -1,14 +1,13 @@
 .Rectangle {
   display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-width: 970px;
-height: 580px;
-background: #CAE7F6;
-border-radius: 46px;
-border: 2px solid #5C8374;
-
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 970px;
+  height: 580px;
+  background: #cae7f6;
+  border-radius: 46px;
+  border: 2px solid #5c8374;
 }
 
 .button-column {
@@ -22,33 +21,33 @@ border: 2px solid #5C8374;
   padding: 10px;
   width: 300px;
   height: 60px;
-  margin-top:10px;
+  margin-top: 10px;
   cursor: pointer;
 }
 
 .button-column img {
   width: 40px; /* Adjust the width of the logo as needed */
-  margin-right:30px;
+  margin-right: 30px;
   margin-bottom: 4px; /* Add spacing between the logo and the text */
 }
-.button-column p{
+.button-column p {
   margin-right: 20px;
 }
 
 .text-column {
-  color: #0D0D0D;
+  color: #0d0d0d;
   font-size: 30px;
 
   word-wrap: break-word;
   margin-bottom: 20px; /* Adjust the bottom margin as needed */
-  margin-right:90px;
+  margin-right: 90px;
   margin-top: 20px;
 }
 
 .HaveAnAccount {
   color: black;
   font-size: 20px;
-  font-family: 'Montserrat', Helvetica;
+  font-family: "Montserrat", Helvetica;
   line-height: 18px;
   word-wrap: break-word;
   margin-left: 100px;
@@ -56,7 +55,7 @@ border: 2px solid #5C8374;
 }
 
 .HaveAnAccount button.signin-button {
-  color: #EC3649;
+  color: #ec3649;
   font-style: italic;
   background: none;
   border: none;
@@ -66,7 +65,7 @@ border: 2px solid #5C8374;
 .username {
   width: 370px;
   height: 28px;
-  opacity: 0.30;
+  opacity: 0.3;
   background: black;
   color: white;
   border-radius: 15px;
@@ -79,7 +78,7 @@ border: 2px solid #5C8374;
 .email {
   width: 370px;
   height: 28px;
-  opacity: 0.30;
+  opacity: 0.3;
   background: black;
   color: white;
   border-radius: 15px;
@@ -87,14 +86,12 @@ border: 2px solid #5C8374;
   padding: 10px;
   font-size: 16px;
   margin-bottom: 25px; /* Add space between the fields */
-
 }
-
 
 .password {
   width: 370px;
   height: 28px;
-  opacity: 0.30;
+  opacity: 0.3;
   background: black;
   color: white;
   border-radius: 15px;
@@ -105,24 +102,23 @@ border: 2px solid #5C8374;
 }
 
 .username:focus,
-.email:focus,.password:focus {
-  outline: none;
+.email:focus,
+.password:focus {
+  
 }
 
-
 .create {
-  background-color: #EE4D5D;
+  background-color: #ee4d5d;
   color: white;
   padding: 10px;
   width: 400px;
-  height: 40px;
+  height: 50px;
   border-radius: 30px;
   cursor: pointer;
 }
 .submit p {
   margin: 0; /* Remove default margin for better centering */
 }
-
 
 // mobile
 
@@ -132,7 +128,7 @@ border: 2px solid #5C8374;
   }
 
   .button-column {
-    width:25%;
+    width: 25%;
     margin-top: 65px;
   }
 
@@ -148,7 +144,8 @@ border: 2px solid #5C8374;
   }
 
   .username,
-  .email,.password {
+  .email,
+  .password {
     width: 20%;
     margin-bottom: 10px;
   }
