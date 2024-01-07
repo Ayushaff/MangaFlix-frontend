@@ -14,6 +14,7 @@ import MDLists from './Pages/MDLists/MDLists';
 import CreateList from './Pages/CreateList/CreateList';
 import themeSlice from './Store/Slices/themeSlice';
 import { useSelector } from 'react-redux';
+import Footer from './Components/Footer/Footer';
 
 const App = () => {
   const theme=useSelector((state)=>state.theme)
@@ -47,6 +48,7 @@ const App = () => {
           <Route path='*' element={<Main />} />
         </Routes>
       </div>
+      <Footer ></Footer>
       </Router>
     </div>
   );

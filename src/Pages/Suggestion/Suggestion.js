@@ -36,12 +36,14 @@ const Suggestion = memo(() => {
     dispatch(fetchSeasonal());
     dispatch(fetchLatestUpdates());
     dispatch(fetchRecentlyAdded());
+    // console.log(recentlyAdded);
   }, []);
 
   return (
     <MainContainer
       mainClasses="suggestion-page"
       containerClasses="suggest-content"
+      pageTitle="Suggestions"
     >
       <Helmet>
         <meta charSet="utf-8" />
@@ -49,7 +51,25 @@ const Suggestion = memo(() => {
         <meta name="description" content={`Mangaflix manga homepage`} />
       </Helmet>
 
-      <div
+      <div style={{margin: "0px 10%",marginTop: "10px"}}><SuggestItem title="Trending Manga" link="titles/seasonal" ></SuggestItem></div>
+      <div className="trending">
+      
+        {seasonal.load.status === "loading" ? (
+          <Spinner customStyle={{ width: "50px", height: "50px" }} />
+        ) : (
+          seasonal?.data.map((item) => {
+            return (
+              <div style={{margin : "20px 30px"}}>
+                <MangaVar2 manga={item}/>
+              </div>
+            );
+          })
+        )}
+      </div>
+
+
+
+      {/* <div
         style={{
           paddingLeft: "40px",
           paddingRight: "40px",
@@ -58,7 +78,7 @@ const Suggestion = memo(() => {
           backgroundColor: theme.colors.trendingManga,
         }}
       >
-        <SuggestItem title="TRENDING MANGA" link="titles/recently">
+        <SuggestItem title="TRENDING MANGA" link="titles/seasonal">
           {recentlyAdded.load.status === "loading" ? (
             <Spinner customStyle={{ width: "50px", height: "50px" }} />
           ) : (
@@ -76,30 +96,54 @@ const Suggestion = memo(() => {
             </Slider>
           )}
         </SuggestItem>
-      </div>
+      </div> */}
 
       {/* <SuggestItem title="Latest Updates" link="">
 				<LatestUpdates chapters={latestUpdates?.data} />
 			</SuggestItem> */}
 
       {/* <Banner></Banner> */}
-
-      <SuggestItem title="Latest Update" link="titles/recently">
+      <div style={{margin: "10px 10%"}}><SuggestItem title="Latest Update" link="titles/recently" ></SuggestItem></div>
+      <div className="latest-releases">
+      
         {recentlyAdded.load.status === "loading" ? (
           <Spinner customStyle={{ width: "50px", height: "50px" }} />
         ) : (
-          <Slider>
+          recentlyAdded?.data.map((item) => {
+            return (
+              <div style={{margin : "20px 30px"}}>
+                <MangaVar3 manga={item}/>
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* <div
+        style={{
+          paddingLeft: "40px",
+          paddingRight: "40px",
+          paddingTop: "10px",
+          paddingBottom: "20px",
+        }}
+      >
+        <SuggestItem title="Latest Update" link="titles/recently">
+          {recentlyAdded.load.status === "loading" ? (
+            <Spinner customStyle={{ width: "50px", height: "50px" }} />
+          ) : (
+            // <Slider>
             <MangaItems
               mangas={recentlyAdded?.data}
               Variant={MangaVar3}
               Wrapp={SliderItem}
               styles={{ display: "flex", width: "128px", height: "180px" }}
             />
-          </Slider>
-        )}
-      </SuggestItem>
+            // </Slider>
+          )}
+        </SuggestItem>
+      </div> */}
 
-      <SuggestItem title="Most Popular" link="titles/recently">
+      {/* <SuggestItem title="Most Popular" link="titles/recently">
         {recentlyAdded.load.status === "loading" ? (
           <Spinner customStyle={{ width: "50px", height: "50px" }} />
         ) : (
@@ -126,7 +170,7 @@ const Suggestion = memo(() => {
             />
           </Slider>
         )}
-      </SuggestItem>
+      </SuggestItem> */}
     </MainContainer>
   );
 });
