@@ -42,6 +42,8 @@ const App = () => {
           <Route path='/singin' element={<Signin />} />
           <Route path='/singup' element={<Signup />} />
 
+        
+
           <Route path='/titles/*' element={<Titles />} />
           <Route path='/manga/:id' element={<Manga />} />
           <Route path='/user/:id' element={<UserPage />} />
