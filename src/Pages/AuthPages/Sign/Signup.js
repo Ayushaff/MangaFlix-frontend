@@ -13,10 +13,12 @@ import Modal from "../../../Features/Modal/Modal";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
+import { useSelector } from "react-redux";
 
 const rootModal = document.getElementById("modal-root");
 
 const Signup = () => {
+  const theme = useSelector((state)=>state.theme);
   const [shouldShow, setShouldShow] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -57,15 +59,18 @@ const Signup = () => {
             "Your username must be unique and will be visible to other users."
           }
         >
-          <div className="Rectangle">
+          <div className="Rectangle" style={{
+          backgroundColor : theme.colors.body,
+          color : theme.darkmode ? "white" : "black"
+        }}>
             <button className="button-column">
               <img src={logo} alt="Logo" />
-              <p>Sign in with Google</p>
+              <p >Sign in with Google</p>
             </button>
 
             <div className="HaveAnAccount">
-              <div className="text-column">Create a new Account</div>
-              <span>Already a member ?</span>
+              <div className="text-column" style={{color : theme.darkmode ? "white" : "black"}}>Create a new Account</div>
+              <span style={{color : theme.darkmode ? "white" : "black"}}>Already a member ?</span>
               <button className="signin-button" onClick={handleSingin}>
                 Sign in
               </button>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ReactDOM from "react-dom";
 import styles from "../auth.module.scss";
@@ -22,6 +22,7 @@ import "./signin.scss";
 const modalRoot = document.getElementById("modal-root");
 
 const Signin = () => {
+  const theme = useSelector((state)=>state.theme);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -101,24 +102,28 @@ const Signin = () => {
         <meta name="description" content={`MangaDex login`} />
       </Helmet>
       <MainContainer mainClasses={styles.flexcenter} isHeaderBlack>
-        <div className="Rectangle">
+        <div className="Rectangle" style={{
+          backgroundColor : theme.colors.body,
+          color : theme.darkmode ? "white" : "black"
+        }}>
           <button className="button-column">
             <img src={logo} alt="Logo" />
-            <p>Sign in with Google</p>
+            <p >Sign in with Google</p>
           </button>
 
-          <div className="DonTHaveAnAccountCreateOne">
-          <div className="text-column">Welcome back,</div>
-            <span>Don’t have an account?</span>
+          <div style={{color : theme.darkmode ? "white" : "black"}} className="DonTHaveAnAccountCreateOne">
+          <div style={{color : theme.darkmode ? "white" : "black"}} className="text-column">Welcome back,</div>
+            <span >Don’t have an account?</span>
             <button className="create-button" onClick={handleSingup}>Create one</button>
           </div>
 
-          <input type="text" className="input-field1" placeholder="Email" />
+          <input   type="text" className="input-field1" placeholder="Email" />
 
           <input
             type="password"
             className="input-field2"
             placeholder="Password"
+            
           />
 
           <button className="submit">
