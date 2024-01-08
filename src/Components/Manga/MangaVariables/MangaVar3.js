@@ -5,25 +5,33 @@ import "./mangaVariables.scss";
 import Rating from '@mui/material/Rating';
 import { useSelector } from "react-redux";
 import SuggestItem from "../../../Pages/Suggestion/SuggestItem";
+import MangaflixApi from "../../../Services/MangaflixApi";
+import Spinner from "../../../SharedUI/LoadComponents/Spiner/Spinner";
 
 const MangaVar3 = ({ manga, mangaCover }) => {
   const ref = useRef();
   const theme = useSelector((state)=>state.theme);
   const [value, setValue] = useState(4.5);
+  const [cover,setCover] = useState(0);
     useEffect (()=>{
+      (async ()=>{
+        const resp = await MangaflixApi.getCoverById(manga.relationships[2].id);
+        console.log(resp);
+        setCover(resp);
+      })()
         //console.log(manga);
     },[]);
   return (
     <div className="manga-var3-main">
       <div style={{ display: "block", borderRadius: "14px" }} ref={ref}>
         <div className="manga-img-var3">
-          <Img
+          {cover === 0 ? <Spinner customStyle={{ width: "50px", height: "50px" }} /> :<Img
             src={
               "https://comicvine.gamespot.com/a/uploads/scale_large/6/67663/6073793-08.jpg"
             }
             alt=""
             draggable={false}
-          />
+          />}
           {/* dont need flag */}
           {/* <div className="flag-img-var2">
                     <img src={flags[manga?.attributes?.originalLanguage]} alt="" />
