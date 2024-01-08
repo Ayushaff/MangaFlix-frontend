@@ -21,10 +21,17 @@ const App = () => {
   return (
     <div className="App" style={{
       backgroundColor: theme.colors.body,
+      
     }}>
+      
       <Router>
       <Header />
-      <div className="content__wrap">
+      <div style={{
+        display : "flex",
+        flexDirection : "column",
+        justifyContent : "space-between"
+      }}>
+      <div className="content__wrap" >
         <SideMenu options={{menuType: 'main'}}>
           <SideMain />
         </SideMenu>
@@ -47,8 +54,10 @@ const App = () => {
           
           <Route path='*' element={<Main />} />
         </Routes>
+        
       </div>
       <Footer ></Footer>
+      </div>
       </Router>
     </div>
   );

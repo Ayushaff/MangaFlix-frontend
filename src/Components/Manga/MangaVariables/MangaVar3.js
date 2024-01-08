@@ -1,59 +1,62 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { flags } from "../../../Assets/Svg/Flags";
 import Img from "../../../SharedUI/StyledComponents/Img/Img";
 import "./mangaVariables.scss";
+import Rating from '@mui/material/Rating';
+import { useSelector } from "react-redux";
+import SuggestItem from "../../../Pages/Suggestion/SuggestItem";
+import MangaflixApi from "../../../Services/MangaflixApi";
+import Spinner from "../../../SharedUI/LoadComponents/Spiner/Spinner";
 
 const MangaVar3 = ({ manga, mangaCover }) => {
   const ref = useRef();
-
-  const handleChapterClick = (chapterNum) => {
-    console.log(`Clicked on Chapter ${chapterNum}`);
-  };
-
+  const theme = useSelector((state)=>state.theme);
+  const [value, setValue] = useState(4.5);
+  const [cover,setCover] = useState(0);
+    useEffect (()=>{
+      (async ()=>{
+        const resp = await MangaflixApi.getCoverById(manga.relationships[2].id);
+        console.log(resp);
+        setCover(resp);
+      })()
+        //console.log(manga);
+    },[]);
   return (
-    <>
+    <div className="manga-var3-main">
       <div style={{ display: "block", borderRadius: "14px" }} ref={ref}>
         <div className="manga-img-var3">
-          <Img
+          {cover === 0 ? <Spinner customStyle={{ width: "50px", height: "50px" }} /> :<Img
             src={
-              "https://comicvine.gamespot.com/a/uploads/scale_large/6/67663/7962845-34.jpg"
+              "https://comicvine.gamespot.com/a/uploads/scale_large/6/67663/6073793-08.jpg"
             }
             alt=""
             draggable={false}
-          />
-          {/* don't need flag */}
+          />}
+          {/* dont need flag */}
           {/* <div className="flag-img-var2">
-            <img src={flags[manga?.attributes?.originalLanguage]} alt="" />
-          </div> */}
+                    <img src={flags[manga?.attributes?.originalLanguage]} alt="" />
+                </div> */}
         </div>
-        <div className="item-summary">
-          <h3>Eleceed</h3>
-
-          <div className="chapter-item">
-            <div className="button-column">
-              <button
-                className="chapter-button1"
-                onClick={() => handleChapterClick(277)}
-              >
-                Chapter 277
-              </button>
-
-              <button
-                className="chapter-button2"
-                onClick={() => handleChapterClick(276)}
-              >
-                Chapter 276
-              </button>
-            </div>
-
-            <div className="date-column">
-              <div className="date1">Dec 19, 23</div>
-              <div className="date2">Dec 19, 23</div>
-            </div>
-          </div>
+        <div className="manga-de-var3">
+          <p style={{color : theme.darkmode ? "white" : "black", overflow : "hidden",whiteSpace : "nowrap",textOverflow : "ellipsis"}}>{manga.attributes.title.en}</p>
         </div>
       </div>
-    </>
+      <Rating  name="haf-rating" precision={0.5} size="small" value={value} readOnly />
+      <div style={{height:"5px"}}/>
+      <div
+        className="manga-var3-button"
+      >
+        <p>Chapter 1</p>
+        <p style={{color : "gray",fontSize : "9px"}}>Dec.25, 19</p>
+      </div>
+      <div style={{height:"5px"}}/>
+      <div
+        className="manga-var3-button"
+      >
+        <p>Chapter 120</p>
+        <p style={{color : "gray",fontSize : "9px"}}>Jan.4, 24</p>
+      </div>
+    </div>
   );
 };
 
