@@ -11,7 +11,7 @@ const MangaVar3 = ({ manga, mangaCover }) => {
   const theme = useSelector((state)=>state.theme);
   const [value, setValue] = useState(4.5);
     useEffect (()=>{
-        console.log(manga);
+        //console.log(manga);
     },[]);
   return (
     <div className="manga-var3-main">

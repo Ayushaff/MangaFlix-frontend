@@ -18,7 +18,7 @@ const MangaVar2 = ({ manga, mangaCover }) => {
                 </div> */}
             </div>
             <div className="manga-de-var2">
-                <p style={{color : theme.darkmode ? "white" : "black", overflow : "hidden",whiteSpace : "nowrap",textOverflow : "ellipsis"}}>{"Shingeki no kyojin"}</p>
+                <p style={{color : theme.darkmode ? "white" : "black", overflow : "hidden",whiteSpace : "nowrap",textOverflow : "ellipsis"}}>{manga.attributes.title.en}</p>
             </div>
         </div>   
     );

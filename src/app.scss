@@ -40,8 +40,10 @@ label[for] {
     display: flex;
     margin: 0;
     padding: 0;
-    height: 100%;
-    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    // height: 100%;
+    // width: 100%;
 }
 
 main {

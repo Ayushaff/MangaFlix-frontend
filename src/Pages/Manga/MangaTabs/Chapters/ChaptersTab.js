@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import Additional from "../../../../Components/AdditionalInfo/Additional";
 import Volumes from "../../../../Components/VolumesFeed/Volumes";
 import styles from "./chapters_tab.module.scss";
@@ -11,6 +11,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ChaptersTab = memo(({ mangaId, mangaInfo }) => {
   const theme = useSelector((state) => state.theme);
+  useEffect(()=>{
+    
+  },[]);
   return (
     <>
       {/* <MangaContent mangaId={mangaId} mangaInfo={mangaInfo} ></MangaContent> */}

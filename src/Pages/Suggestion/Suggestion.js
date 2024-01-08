@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -23,6 +23,7 @@ import Spinner from "../../SharedUI/LoadComponents/Spiner/Spinner";
 import { Helmet } from "react-helmet";
 import Banner from "./Banner/Banner";
 import MangaVar3 from "../../Components/Manga/MangaVariables/MangaVar3";
+import MangaflixApi from "../../Services/MangaflixApi";
 
 const Suggestion = memo(() => {
   const dispatch = useDispatch();
@@ -31,12 +32,19 @@ const Suggestion = memo(() => {
   const latestUpdates = useSelector((state) => state.suggest.latestUpdates);
   const recentlyAdded = useSelector((state) => state.suggest.recentlyAdded);
   const theme = useSelector((state) => state.theme);
+  const [manga,setManga] = useState([]);
 
   useEffect(() => {
     dispatch(fetchSeasonal());
     dispatch(fetchLatestUpdates());
     dispatch(fetchRecentlyAdded());
     // console.log(recentlyAdded);
+
+    (async ()=>{
+      const resp = await MangaflixApi.getAllManga();
+      console.log(resp);
+      setManga(resp);
+    })()
   }, []);
 
   return (
@@ -53,8 +61,20 @@ const Suggestion = memo(() => {
 
       <div style={{margin: "0px 10%",marginTop: "10px"}}><SuggestItem title="Trending Manga" link="titles/seasonal" ></SuggestItem></div>
       <div className="trending">
-      
-        {seasonal.load.status === "loading" ? (
+        {
+          manga.length == 0 ?
+          <Spinner customStyle={{ width: "50px", height: "50px" }} />
+          : manga.map((item) => {
+            return (
+              <div style={{margin : "20px 30px"}}>
+                <MangaVar2 manga={item}/>
+              </div>
+            );
+          })
+        }
+
+
+        {/* {seasonal.load.status === "loading" ? (
           <Spinner customStyle={{ width: "50px", height: "50px" }} />
         ) : (
           seasonal?.data.map((item) => {
@@ -64,7 +84,7 @@ const Suggestion = memo(() => {
               </div>
             );
           })
-        )}
+        )} */}
       </div>
 
 
