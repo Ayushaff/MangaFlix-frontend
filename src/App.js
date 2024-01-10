@@ -53,6 +53,8 @@ const App = () => {
           <Route path='/lists' element={<MDLists />} />
 
           <Route path='/create/list' element={<CreateList />} />
+          <Route path='/aboutus' element={<CreateList />} />
+
           
           <Route path='*' element={<Main />} />
         </Routes>
