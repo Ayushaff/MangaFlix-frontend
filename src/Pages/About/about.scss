@@ -36,14 +36,15 @@
     margin-left: 20px; /* Adjust left margin */
   margin-right: 20px; /* Adjust right margin */
     word-wrap: break-word; /* Prevent text overflow */
+    p {
+      margin-bottom: 20px;
+      margin-left: 0; /* Adjust margin for mobile */
+      margin-right: 0; /* Adjust margin for mobile */
+      margin-top: 20px; /* Add some space between paragraphs */
+    }
   }
   
-  p {
-    margin-bottom: 20px;
-    margin-left: 0; /* Adjust margin for mobile */
-    margin-right: 0; /* Adjust margin for mobile */
-    margin-top: 20px; /* Add some space between paragraphs */
-  }
+  
   
   @media (max-width: 768px) {
     .Rectangle12 {
