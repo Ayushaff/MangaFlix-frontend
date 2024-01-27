@@ -32,7 +32,7 @@ const Suggestion = memo(() => {
   const latestUpdates = useSelector((state) => state.suggest.latestUpdates);
   const recentlyAdded = useSelector((state) => state.suggest.recentlyAdded);
   const theme = useSelector((state) => state.theme);
-  const [manga,setManga] = useState([]);
+  const [manga, setManga] = useState([]);
 
   useEffect(() => {
     dispatch(fetchSeasonal());
@@ -40,7 +40,7 @@ const Suggestion = memo(() => {
     dispatch(fetchRecentlyAdded());
     // console.log(recentlyAdded);
 
-    (async ()=>{
+    (async () => {
       const resp = await MangaflixApi.getAllManga();
       console.log(resp);
       setManga(resp);
@@ -59,20 +59,23 @@ const Suggestion = memo(() => {
         <meta name="description" content={`Mangaflix manga homepage`} />
       </Helmet>
 
-      <div style={{margin: "0px 10%",marginTop: "10px"}}><SuggestItem title="Trending Manga" link="titles/seasonal" ></SuggestItem></div>
+      <div style={{ margin: "0px 10%", marginTop: "10px" }}><SuggestItem title="Trending Manga" link="titles/seasonal" ></SuggestItem></div>
 
       <div className="trending">
         {
-          manga.length == 0 ?
-          <Spinner customStyle={{ width: "50px", height: "50px" }} />
-          : manga.map((item) => {
-            return (
-              <div style={{margin : "20px 30px"}}>
-                <MangaVar2 manga={item}/>
+          manga && manga.data && manga.data.length > 0 ? (
+            manga.data.map((item) => (
+              <div style={{ margin: "20px 30px" }} key={item.id}>
+                <h3>Title: {item.attributes.title}</h3>
+                {/* Render other properties as needed */}
+                <MangaVar2 manga={item} />
               </div>
-            );
-          })
+            ))
+          ) : (
+            <Spinner customStyle={{ width: "50px", height: "50px" }} />
+          )
         }
+
 
 
         {/* {seasonal.load.status === "loading" ? (
@@ -124,16 +127,16 @@ const Suggestion = memo(() => {
 			</SuggestItem> */}
 
       {/* <Banner></Banner> */}
-      <div style={{margin: "10px 10%"}}><SuggestItem title="Latest Update" link="titles/recently" ></SuggestItem></div>
+      <div style={{ margin: "10px 10%" }}><SuggestItem title="Latest Update" link="titles/recently" ></SuggestItem></div>
       <div className="latest-releases">
-      
+
         {recentlyAdded.load.status === "loading" ? (
           <Spinner customStyle={{ width: "50px", height: "50px" }} />
         ) : (
           recentlyAdded?.data.map((item) => {
             return (
-              <div style={{margin : "20px 30px"}}>
-                <MangaVar3 manga={item}/>
+              <div style={{ margin: "20px 30px" }}>
+                <MangaVar3 manga={item} />
               </div>
             );
           })

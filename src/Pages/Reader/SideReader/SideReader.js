@@ -5,7 +5,8 @@ import "./side-reader.scss";
 import cover from "./cover.png";
 import LinkList from "../../../SharedUI/Form/LinkList";
 import Select from "../../../SharedUI/StyledComponents/Select/Select";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 const SideReader = ({
   data,
   handleChapter,
@@ -16,7 +17,8 @@ const SideReader = ({
   handleImage,
 }) => {
   const [selected, setSelected] = useState("");
-  const [pageSelected, setPageSelected] = useState();
+  const [pageSelected, setPageSelected] = useState(1);
+
 
   const [pages, setPages] = useState();
   const [chapters, setChapters] = useState();
@@ -53,8 +55,12 @@ const SideReader = ({
         return { name: i + 1 };
       });
       setPages(pages);
+    } else {
+      setPages([]);
     }
   }, [maxImg]);
+
+
 
   useEffect(() => {
     if (selected) {
@@ -67,6 +73,11 @@ const SideReader = ({
       handleImage(pageSelected.name);
     }
   }, [pageSelected]);
+
+  const handleDecrementPages = () => {
+    console.log('Decrementing pages...', pageSelected);
+    setPageSelected(pageSelected - 1);
+  };
 
   return (
     <div
@@ -177,31 +188,66 @@ const SideReader = ({
       </div>
       <div className="ok">
         <div className="side-chapter-controls">
-          <Select
-            values={pages}
-            selected={pageSelected}
-            setSelected={setPageSelected}
-            selectTitle="Page"
-            customStyles={{ height: "25px" }}
-            beforePageContent={<p>Pg. </p>}
-          />
-          <Select
-            values={chapters}
-            selected={selected}
-            setSelected={setSelected}
-            selectTitle="Chapter"
-            customStyles={{ height: "25px", marginBottom: "50px" }}
-            beforePageContent={<p></p>}
-          />
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px", marginRight: "20px", marginBottom: "10px", marginTop: "10px" }}>
 
-            <div className="vertical">
-            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="10" viewBox="0 0 320 512"><path d="M96 32H32C14.3 32 0 46.3 0 64v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32zm0 160H32c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32v-64c0-17.7-14.3-32-32-32zm0 160H32c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32v-64c0-17.7-14.3-32-32-32zM288 32h-64c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32zm0 160h-64c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32v-64c0-17.7-14.3-32-32-32zm0 160h-64c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32v-64c0-17.7-14.3-32-32-32z"/></svg>
-              <p>Vertical</p>
-            </div>
-            <div className="single">
-            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512"><path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z"/></svg>
-              <p>Single Page</p>
-            </div>
+            <button
+              onClick={handleDecrementPages} style={{ marginLeft: "10px", height: "70px", marginTop: "16px", }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke="black" strokeWidth="1px" borderRadius="12px" width="34" height="50"><path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z" /></svg>
+            </button>
+
+
+            <Select
+              values={pages}
+              selected={pageSelected}
+              setSelected={setPageSelected}
+              selectTitle="Page"
+              customStyles={{ height: "25px" }}
+              beforePageContent={<p>Pg. </p>}
+              onDecrementPages={handleDecrementPages}
+            />
+            
+            <button
+              onClick={handleDecrementPages} style={{ marginLeft: "10px", height: "70px", marginTop: "16px", }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke="black" strokeWidth="1px" borderRadius="12px" width="34" height="50"><path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z" /></svg>
+            </button>
+
+
+
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px", marginRight: "20px", marginBottom: "10px", marginTop: "10px" }}>
+
+
+            <button
+              onClick={handleDecrementPages} style={{ marginLeft: "10px", height: "70px", marginTop: "16px", }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke="black" strokeWidth="1px" borderRadius="12px" width="34" height="50"><path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z" /></svg>
+            </button>
+            <Select
+              values={chapters}
+              selected={selected}
+              setSelected={setSelected}
+              selectTitle="Chapter"
+              customStyles={{ height: "25px", marginBottom: "50px" }}
+              beforePageContent={<p></p>}
+            />
+            <button
+              onClick={handleDecrementPages} style={{ marginLeft: "10px", height: "70px", marginTop: "16px", }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke="black" strokeWidth="1px" borderRadius="12px" width="34" height="50"><path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z" /></svg>
+            </button>
+          </div>
+
+          <div className="vertical">
+            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="10" viewBox="0 0 320 512"><path d="M96 32H32C14.3 32 0 46.3 0 64v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32zm0 160H32c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32v-64c0-17.7-14.3-32-32-32zm0 160H32c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32v-64c0-17.7-14.3-32-32-32zM288 32h-64c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32zm0 160h-64c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32v-64c0-17.7-14.3-32-32-32zm0 160h-64c-17.7 0-32 14.3-32 32v64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32v-64c0-17.7-14.3-32-32-32z" /></svg>
+            <p>Vertical</p>
+          </div>
+          <div className="single">
+            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512"><path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z" /></svg>
+            <p>Single Page</p>
+          </div>
         </div>
       </div>
       <hr style={{ width: "100%", opacity: "0.4", margin: "1rem 0px" }} />

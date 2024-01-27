@@ -10,6 +10,7 @@ const Select = memo(
     selectTitle = "",
     customStyles = {},
     beforePageContent,
+    onDecrementPages
   }) => {
     const refSelect = useRef(null);
 
@@ -33,9 +34,8 @@ const Select = memo(
         <div className={styles.select}>
           <p className={styles.title}>{selectTitle}</p>
           <p
-            className={`${styles.selected} ${
-              !selectTitle ? styles.centered : ""
-            }`}
+            className={`${styles.selected} ${!selectTitle ? styles.centered : ""
+              }`}
           >
             {selected && beforePageContent && (
               <span className={styles.beforePageContent}>
@@ -46,11 +46,21 @@ const Select = memo(
           </p>
           <SelectIcon />
           <div className={styles.content}>
-            {values.map((val) => (
-              <div key={val.name ?? val} onClick={() => handleSelected(val)}>
-                {val?.name}
-              </div>
-            ))}
+          {Array.isArray(values) &&
+              values.map((val) => (
+                <div
+                  key={val.name ?? val}
+                  onClick={() => {
+                    handleSelected(val);
+                    // Call the callback prop when a specific condition is met
+                    if (val.name === "Decrement Page" && onDecrementPages) {
+                      onDecrementPages();
+                    }
+                  }}
+                >
+                  {val?.name}
+                </div>
+              ))}
           </div>
         </div>
       </div>

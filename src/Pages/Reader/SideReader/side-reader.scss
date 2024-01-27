@@ -51,9 +51,9 @@
     display: flex;
     flex-direction: column;
     top:30px;
-    min-width: 100%;
+    min-width: 60%;
     gap: 15px;
-    height: 360px;
+    height: 440px;
 }
 
 .side-ch-control-page, .side-ch-control-chapter {
@@ -66,20 +66,18 @@
 }
 
 .sideCover{
-    top:20px;
+    margin-top:20px;
     display: flex;
     flex-direction: row;
-    position: relative;
+    .sideCover img{
+        height: 225px;
+        width: 170px;
+    }
+    .sideCover p{
+        top: 30px;
+    }
 }
-.sideCover img{
-    position: relative;
-    left: 20px;
-    height: 180px;
-    width: 130px;
-}
-.sideCover p{
-    top: 30px;
-}
+
 .ok{
     position: relative;
     top:20px;

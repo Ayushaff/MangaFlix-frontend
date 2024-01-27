@@ -59,14 +59,14 @@ const MangaVar3 = ({ manga, mangaCover }) => {
         className="manga-var3-button"
       >
         <p>Chapter 1</p>
-        <p style={{color : "gray",fontSize : "9px"}}>Dec.25, 19</p>
+        <p style={{color : "gray",fontSize : "9px"}}>{manga.attributes.createdAt}</p>
       </div>
       <div style={{height:"5px"}}/>
       <div
         className="manga-var3-button"
       >
         <p>Chapter 120</p>
-        <p style={{color : "gray",fontSize : "9px"}}>Jan.4, 24</p>
+        <p style={{color : "gray",fontSize : "9px"}}>{manga.attributes.updatedAt}</p>
       </div>
     </div>
   );
