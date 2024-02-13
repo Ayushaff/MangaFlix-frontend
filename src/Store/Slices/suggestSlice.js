@@ -1,17 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import MangaDexApi from "../../Services/MangaDexApi";
 import { getMangasIds } from "../../Utils/getMangaIds";
+import MangaflixApi from "../../Services/MangaflixApi";
 
 export const fetchSeasonal = createAsyncThunk(
     'suggest/fetchSeasonal',
-    async function(_, {rejectWithValue, dispatch}) {
+    async function (_, { rejectWithValue, dispatch }) {
         try {
             const seasonalList = await MangaDexApi.getSeasonal();
 
             if (!seasonalList.ok) {
                 throw new Error('Something is going wrong...');
             }
-            
+
             const data = await seasonalList.json();
 
             const seasonalIds = getMangasIds(data.data.relationships);
@@ -33,7 +34,7 @@ export const fetchSeasonal = createAsyncThunk(
 
 export const fetchLatestUpdates = createAsyncThunk(
     'suggest/fetchLatestUpdates',
-    async function(_, {rejectWithValue, dispatch}) {
+    async function (_, { rejectWithValue, dispatch }) {
         try {
             const latestUpdatesList = await MangaDexApi.getLatestUpdateChapters();
             console.log(latestUpdatesList);
@@ -68,7 +69,7 @@ export const fetchLatestUpdates = createAsyncThunk(
                 return chapter;
             });
 
-            dispatch(setLatestUpdates({data: latestUpdListData.data.slice(0, 18)}));
+            dispatch(setLatestUpdates({ data: latestUpdListData.data.slice(0, 18) }));
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -80,21 +81,21 @@ export const fetchRecentlyAdded = createAsyncThunk(
     async function(_, {rejectWithValue, dispatch}) {
         try {
             const recentlyAdded = await MangaDexApi.getRecentlyAdded();
-
-            if (!recentlyAdded.ok) {
+            console.log("recentlyAdded got in suggesslice", recentlyAdded);
+            if (!recentlyAdded.data) {
                 throw new Error('Something is going wrong...');
             }
-            // console.log("/sugges/fetchRecentlyAdded");
-            
 
-            const recentlyAddedData = await recentlyAdded.json();
-            console.log(recentlyAddedData);
-            dispatch(setRecentlyAdded(recentlyAddedData.data));
+            // Assuming recentlyAdded contains the data directly, without needing .json()
+            // const recentlyAddedData = await recentlyAdded.json();
+            
+            dispatch(setRecentlyAdded(recentlyAdded.data));
         } catch (error) {
             return rejectWithValue(error.message);
         }
     }
 )
+
 
 const initialState = {
     seasonal: {

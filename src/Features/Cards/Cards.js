@@ -26,10 +26,9 @@ const Cards = memo(({ mangasArr, handleManga, children }) => {
 
                 if (mangaArrInfo.result === 'ok' && mangaArrInfo?.data?.length > 0) {
                     const stats = await fetchStatistics(mangaArrInfo.data);
-
+                    
                     setMangaArrayInfo(mangaArrInfo.data);
                     setMangaStatisticsInfo(stats);
-                    
                     setLoading(false);
                 } else {
                     setMangaArrayInfo([]);

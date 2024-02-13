@@ -50,8 +50,6 @@ const MainContainer = memo(({ children, mainClasses = '', containerClasses = '',
 
     return (
         <main className={mainClasses} style={{
-            
-
             background : pageTitle === "Advanced Search" ? "linear-gradient(180deg, "+theme.colors.trendingManga+" 160px, "+theme.colors.body+" 160px, "+theme.colors.body+" 100%)":
             pageTitle === "Suggestions" ? "linear-gradient(180deg, "+theme.colors.trendingManga+" 420px, "+theme.colors.body+" 420px, "+theme.colors.body+" 100%)" 
             : "linear-gradient(180deg, "+theme.colors.trendingManga+" 400px, "+theme.colors.body+" 400px, "+theme.colors.body+" 100%)",

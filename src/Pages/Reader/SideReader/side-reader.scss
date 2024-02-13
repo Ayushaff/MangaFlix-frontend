@@ -46,6 +46,11 @@
     }
 }
 
+.ok{
+    top: 20px;
+    padding: 10px 25px 10px 0px; 
+    margin-right: 160px;
+    
 .side-chapter-controls {
     background-color: #9ec8b9;
     display: flex;
@@ -54,6 +59,9 @@
     min-width: 60%;
     gap: 15px;
     height: 440px;
+
+
+}
 }
 
 .side-ch-control-page, .side-ch-control-chapter {
@@ -76,11 +84,6 @@
     .sideCover p{
         top: 30px;
     }
-}
-
-.ok{
-    position: relative;
-    top:20px;
 }
 
 .vertical {

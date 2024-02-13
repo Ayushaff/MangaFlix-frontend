@@ -42,19 +42,19 @@
       margin-right: 0; /* Adjust margin for mobile */
       margin-top: 20px; /* Add some space between paragraphs */
     }
-  }
-  
-  
-  
-  @media (max-width: 768px) {
-    .Rectangle12 {
-      height: auto; /* Allow height to adjust based on content */
-      padding: 10px; /* Adjust padding for smaller screens */
+    
+    
+    @media (max-width: 768px) {
+      .Rectangle12 {
+        height: auto; /* Allow height to adjust based on content */
+        padding: 10px; /* Adjust padding for smaller screens */
+      }
+    
+      p {
+        margin-left: 10px; /* Adjust margin for smaller screens */
+        margin-right: 10px; /* Adjust margin for smaller screens */
+      }
     }
-  
-    p {
-      margin-left: 10px; /* Adjust margin for smaller screens */
-      margin-right: 10px; /* Adjust margin for smaller screens */
-    }
+    
   }
   

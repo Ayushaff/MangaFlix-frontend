@@ -1,4 +1,8 @@
+
+
 import { filterSomeAttribute } from '../Utils/filterAttribute';
+import axios from 'axios';
+
 
 class MangaDexApi {
 	CorsProxy = 'https://web-production-3f96.up.railway.app/';
@@ -154,12 +158,11 @@ class MangaDexApi {
 			const mangaImageIds =
 				mangaImagesArray.length > 0
 					? mangaImagesArray.reduce(
-							(accu, curr) =>
-								`&ids[]=${
-									filterSomeAttribute(curr?.relationships, 'cover_art')?.id
-								}` + accu,
-							''
-					  )
+						(accu, curr) =>
+							`&ids[]=${filterSomeAttribute(curr?.relationships, 'cover_art')?.id
+							}` + accu,
+						''
+					)
 					: '';
 
 			const coverIds = await fetch(`${this.BaseCover}?${mangaImageIds}`).then(
@@ -213,7 +216,7 @@ class MangaDexApi {
 		try {
 			const ids = mangasIds.reduce((accu, curr) => accu + curr, '');
 			// console.log(`${this.BaseManga}?includes[]=cover_art${ids}&limit=24&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&contentRating[]=pornographic`);
-			
+
 			return await fetch(
 				`${this.BaseManga}?includes[]=cover_art${ids}&limit=24&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&contentRating[]=pornographic`
 			);
@@ -280,8 +283,7 @@ class MangaDexApi {
 	getSeasonal = async () => {
 		try {
 			return await fetch(
-				`${
-					this.CorsProxy
+				`${this.CorsProxy
 				}https://api.mangadex.org/list/4be9338a-3402-4f98-b467-43fb56663927?includes[]=user&limit=${20}`
 			);
 		} catch (e) {
@@ -291,13 +293,29 @@ class MangaDexApi {
 
 	getRecentlyAdded = async () => {
 		try {
-			return await fetch(
-				`${this.BaseManga}?limit=18&contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&order[createdAt]=desc&includes[]=cover_art`
+			const authToken = localStorage.getItem("auth-token");
+			const response = await axios.get(
+				`http://51.161.35.231:8959/v1/manga?page=&limit=15&search=`,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						"x-auth-token": authToken,
+					},
+				}
+
 			);
-		} catch (e) {
-			throw new Error('Failed in another way', { cause: e });
+			if (response.status === 200) {
+				console.log('response getrecentlyadded from mangadexapi ', response.data);
+			}
+			else {
+				console.log('response', response);
+			}
+			return response;
+		} catch (error) {
+			throw new Error('Failed in another way', { cause: error });
 		}
 	};
+
 
 	getRecentlyCovers = async (mangasIds) => {
 		try {
@@ -372,85 +390,91 @@ class MangaDexApi {
 		}
 	};
 
-	getFilterTags = async () => {
-		try {
-			return await fetch(`${this.BaseManga}/tag`);
-		} catch (e) {
-			throw new Error('Failed in another way', { cause: e });
-		}
-	};
+	getFilterTags=async()=> {
+	try {
+		const authToken = localStorage.getItem("auth-token");
 
-	getFilteredData = async (
-		includeIds = [],
-		excludeIds = [],
-		pubDemographic = [],
-		rating = [],
-		status = [],
-		title = '',
-		order = '',
-		mangaIds = [],
-		limit = 32,
-		offset = 0
-	) => {
-		// TODO: rework that three last tag types comes as one object
-		try {
-			const includeTags =
-				includeIds.length > 0
-					? includeIds?.map((tag) => `&includedTags[]=${tag}`).join('')
-					: '';
-			const excludeTags =
-				excludeIds.length > 0
-					? excludeIds?.map((tag) => `&excludedTags[]=${tag}`).join('')
-					: '';
+		return await axios.get('http://51.161.35.231:8959/v1/genre',
+		{
+			headers: {
+				"Content-Type": "application/json",
+				"x-auth-token": authToken,
+			},
+		});
+	} catch (e) {
+		throw new Error('Failed in another way', { cause: e });
+	}
+}
 
-			const pubDemographics =
-				pubDemographic.length > 0
-					? pubDemographic
-							?.map((el) => `&publicationDemographic[]=${el}`)
-							.join('')
-					: '';
-			const contentRating =
-				rating.length > 0
-					? rating?.map((el) => `&contentRating[]=${el}`).join('')
-					: '';
-			const statusElems =
-				status.length > 0
-					? status?.map((el) => `&status[]=${el}`).join('')
-					: '';
+getFilteredData = async (
+	includeIds = [],
+	excludeIds = [],
+	pubDemographic = [],
+	rating = [],
+	status = [],
+	title = '',
+	order = '',
+	mangaIds = [],
+	limit = 32,
+	offset = 0
+) => {
+	// TODO: rework that three last tag types comes as one object
+	try {
+		const includeTags =
+			includeIds.length > 0
+				? includeIds?.map((tag) => `&includedTags[]=${tag}`).join('')
+				: '';
+		const excludeTags =
+			excludeIds.length > 0
+				? excludeIds?.map((tag) => `&excludedTags[]=${tag}`).join('')
+				: '';
 
-			const tmp = order.length > 0 ? order?.split('.') : [];
-			const orderValue =
-				order.length > 0
-					? `&order[${tmp[0]}]=${tmp[1]}`
-					: `&order[relevance]=desc`;
+		const pubDemographics =
+			pubDemographic.length > 0
+				? pubDemographic
+					?.map((el) => `&publicationDemographic[]=${el}`)
+					.join('')
+				: '';
+		const contentRating =
+			rating.length > 0
+				? rating?.map((el) => `&contentRating[]=${el}`).join('')
+				: '';
+		const statusElems =
+			status.length > 0
+				? status?.map((el) => `&status[]=${el}`).join('')
+				: '';
 
-			const ids =
-				mangaIds.length > 0
-					? mangaIds.reduce((accu, curr) => `&ids[]=${curr}` + accu, '')
-					: '';
+		const tmp = order.length > 0 ? order?.split('.') : [];
+		const orderValue =
+			order.length > 0
+				? `&order[${tmp[0]}]=${tmp[1]}`
+				: `&order[relevance]=desc`;
 
-			return await fetch(
-				`${
-					this.BaseManga
-				}?limit=${limit}&offset=${offset}&includes[]=cover_art&includes[]=author&includes[]=artist${contentRating}${statusElems}${pubDemographics}${includeTags}${excludeTags}${
-					title.length > 0 ? `&title=${title}` : ''
-				}${orderValue}${ids}`
-			);
-		} catch (e) {
-			throw new Error('Failed in another way', { cause: e });
-		}
-	};
+		const ids =
+			mangaIds.length > 0
+				? mangaIds.reduce((accu, curr) => `&ids[]=${curr}` + accu, '')
+				: '';
 
-	getRandomManga = async () => {
-		try {
-			return await fetch(
-				`${this.BaseManga}/random?contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&includes[]=artist&includes[]=author&includes[]=cover_art`,
-				{ headers: { ...this.Headers } }
-			).then((data) => data.json());
-		} catch (e) {
-			throw new Error('Failed in another way', { cause: e });
-		}
-	};
+		return await fetch(
+			`${this.BaseManga
+			}?limit=${limit}&offset=${offset}&includes[]=cover_art&includes[]=author&includes[]=artist${contentRating}${statusElems}${pubDemographics}${includeTags}${excludeTags}${title.length > 0 ? `&title=${title}` : ''
+			}${orderValue}${ids}`
+		);
+	} catch (e) {
+		throw new Error('Failed in another way', { cause: e });
+	}
+};
+
+getRandomManga = async () => {
+	try {
+		return await fetch(
+			`${this.BaseManga}/random?contentRating[]=safe&contentRating[]=suggestive&contentRating[]=erotica&includes[]=artist&includes[]=author&includes[]=cover_art`,
+			{ headers: { ...this.Headers } }
+		).then((data) => data.json());
+	} catch (e) {
+		throw new Error('Failed in another way', { cause: e });
+	}
+};
 }
 
 export default new MangaDexApi();

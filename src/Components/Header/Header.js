@@ -28,7 +28,7 @@ const Header = memo(() => {
   const user = useSelector((state) => state.user.user);
   const theme = useSelector((state) => state.theme);
 
-  const handleSearch = () => {};
+  const handleSearch = () => { };
 
   const handleModal = () => {
     setActive(true);
@@ -130,14 +130,12 @@ const Header = memo(() => {
         </Modal> */}
       </div>
       <div
+        className="desktop-navigation"
+
         style={{
           backgroundColor: theme.colors.headbar,
           color: theme.darkmode ? "white" : "black",
-          paddingLeft: "50px",
-          paddingRight: "50px",
-          paddingTop: "10px",
-          paddingBottom: "10px",
-          fontSize: "15px",
+         
         }}
       >
         <Link

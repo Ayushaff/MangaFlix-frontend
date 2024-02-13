@@ -6,13 +6,14 @@ import { Link } from "react-router-dom";
 
 const Logo = ({ handleMenu, ico, color = 'black' }) => {
   return (
-    <div id="logo" className={ico.type === 'open' ? styles.logo : styles.logo + ' ' + styles.logo_side_main}>
+    <div id="logo" className={ico.type === 'open' ? styles.logo : styles.logo + ' ' + styles.logo_side_main }>
       {ico.side === 'left' ? (
-        <>
-          {/* {ico.type === 'open' 
-                ? <MenuLinesIco onClick={handleMenu} />
-                : <MenuCrossIco onClick={handleMenu} /> 
-              } */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {ico.type === 'open' ? (
+            <MenuLinesIco style={{ color: color }} onClick={handleMenu} className={styles.mobileMenuIcon} />
+          ) : (
+            <MenuCrossIco onClick={handleMenu} />
+          )}
           <Link to="/">
             <h2
               style={{
@@ -26,10 +27,10 @@ const Logo = ({ handleMenu, ico, color = 'black' }) => {
               MANGAFLIX
             </h2>
           </Link>
-        </>
+        </div>
       ) : (
         <>
-          <Link to="/">
+              <Link to="/">
             <h2
               style={{
                 color: color,
@@ -42,10 +43,26 @@ const Logo = ({ handleMenu, ico, color = 'black' }) => {
               MANGAFLIX
             </h2>
           </Link>
-          {/* { ico.type === 'close'
+           { ico.type === 'close'
                 ? <MenuCrossIco onClick={handleMenu} />
                 : <MenuLinesIco onClick={handleMenu} /> 
-              } */}
+              }
+        {/* <MenuLinesIco onClick={handleMenu} className={styles.mobileMenuIcon} />
+          <style>
+            {`
+              @media (max-width: 768px) {
+                .${styles.mobileMenuIcon} {
+                  display: block;
+                }
+              }
+              
+              @media (min-width: 769px) {
+                .${styles.mobileMenuIcon} {
+                  display: none;
+                }
+              }
+            `}
+          </style> */}
         </>
       )}
     </div>

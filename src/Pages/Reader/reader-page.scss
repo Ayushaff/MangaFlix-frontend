@@ -1,32 +1,36 @@
 .chapter-page {
-    margin: 20px 20px 0 20px;
-    display: grid;
-    grid-template-areas: 
-      'chapter-title'
-      'chapter-content';
-    gap: 10px;
-    justify-content: start;
-    grid-template-columns: 1fr;
+  margin: 20px 20px 0 20px;
+  display: grid;
+  grid-template-areas:
+    "chapter-title"
+    "chapter-content";
+  gap: 10px;
+  justify-content: start;
+  grid-template-columns: 1fr;
+  body {
+    overflow-x: hidden;
   }
-  
+
   .chapter-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     p:last-child {
       user-select: none;
     }
-  
+
     width: 100%;
     grid-area: chapter-title;
     justify-self: start;
-  
+
     .chapter-name {
       font-size: 16pt;
       margin-bottom: 3px;
       font-family: "Poppins-SemiBold", Helvetica;
-      font-size: 25px;
       font-weight: 600;
       color: white;
     }
-  
+
     .manga-name {
       margin-bottom: 17px;
       font-family: "Poppins-SemiBold", Helvetica;
@@ -34,14 +38,15 @@
       font-weight: 600;
       color: white;
     }
-  
+
     .translator {
+      font-family: "Poppins-SemiBold", Helvetica;
       font-size: 16pt;
       font-weight: bold;
       margin-top: 7px;
     }
   }
-  
+
   .read-progress-info {
     display: flex;
     flex-direction: row;
@@ -50,65 +55,69 @@
     text-align: center;
     gap: 15px;
     margin-bottom: 20px;
-    div {
-      display: flex;
-      align-content: center;
-      justify-content: center;
-      text-align: center;
-      padding-top: 2px;
-      width: 100px;
-      border-radius: 10px;
-      background-color: #1b4242;
-      color: white;
-      font-family: "Poppins-SemiBold", Helvetica;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    
-    min-height: 28px;
   }
-  
+
+  .read-progress-info div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: #2c3e50; /* Choose your background color */
+    color: white;
+    font-family: "Poppins-SemiBold", Helvetica;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
   .c-server {
     position: relative;
     display: inline-block;
     cursor: pointer;
-    right: 80px;
+    right: 8px;
   }
+
   .c-server p {
-    margin-top: 5px; 
+    margin-top: 5px;
   }
+
   .c-menu {
     flex-direction: row;
     position: relative;
     cursor: pointer;
-    left: 80px;
+    left: 8px;
   }
-  
+
   .menu-icon {
     margin-right: 5px; /* Adjust the margin as needed */
   }
-  
+
   .c-menu p {
     margin-top: 5px;
   }
-  .c-menu svg{
-    margin-left: 9px;
-    margin-top: 3px;
+
+  .c-menu svg {
+    margin-left: 5px;
+    margin-top: 2px;
   }
-  .c-vol p{
-      margin-top: 5px;
+
+  .c-vol p {
+    margin-top: 5px;
   }
-  .c-pg p{
-      margin-top: 5px;
+
+  .c-pg p {
+    margin-top: 5px;
   }
+
   .chapter-content {
     width: 100%;
     grid-area: chapter-content;
     display: flex;
     justify-content: center;
     align-items: center;
-  
+
     img {
       margin-left: auto;
       margin-right: auto;
@@ -117,14 +126,20 @@
       user-select: none;
     }
   }
-  
-  @media (max-width: 640px) {
-    .chapter-page {
-      margin: 20px 10px 0 10px;
-    }
-  
+}
+
+@media (max-width: 640px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .chapter-page {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 10px 0 10px;
     .chapter-title {
       text-align: center;
+      width: auto;
       .chapter-name {
         font-size: 20px;
       }
@@ -132,31 +147,41 @@
         font-size: 18px;
       }
       .translator {
+        font-weight: lighter !important;
         font-size: 14px;
       }
     }
-  
     .read-progress-info {
-      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0 30px 0 20px;
+      justify-content: center;
       align-items: center;
+      width: auto;
+
       div {
         font-weight: lighter;
-        font-size: 12pt;
-        width: 100px;      
+        font-size: 14px;
+        padding: 8px 12px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        white-space: nowrap; /* Ensure text stays in a single line */
       }
     }
-  
-    .translator {
-      font-weight: lighter !important;
-    }
-  
     .chapter-content {
       min-height: 100vh;
+      padding: 0 30px 0 10px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
       img {
-        position: absolute;
-        max-height: 100% !important;
-        max-width: 100% !important;
+        max-width: 100%; /* Ensure images don't exceed their container width */
+        width: auto; /* Add this property to make images responsive */
+        height: auto;
+        user-select: none;
       }
     }
   }
-  
+}

@@ -13,6 +13,11 @@
     overflow: hidden;
     transition: 0.4s all ease;
 }
+@media (max-width: 640px) {
+    .side-menu {
+        width: 200px;
+    }
+}
 
 .links-block {
     font-size: 14pt;
@@ -45,30 +50,37 @@
 }
 
 .link {
-    width: 100%;
-    padding: 0.2rem;
+    width: calc(100% - 2rem);
+    padding: 1rem;
     cursor: pointer;
     color: #242424;
     height: 1.75rem;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     transition: background-color 0.2s ease;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
     
     a {
         padding-left: 20px;
         width: calc(100% - 20px);
+        
     }
-    
+
     &:hover {
         background-color: rgb(211, 211, 211);
-        border-radius: 0.5ch;
+        border-radius: 2.5ch;
     }
 }
+
 
 .active-link {
     color: white;
     background-color: #ff6740;
-    border-radius: 0.24rem;   
+    border-radius: 2.5ch;   
     
     &:hover {
         background-color: rgba($color: #ff6740, $alpha: 0.8);   

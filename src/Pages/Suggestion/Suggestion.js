@@ -42,11 +42,13 @@ const Suggestion = memo(() => {
 
     (async () => {
       const resp = await MangaflixApi.getAllManga();
-      console.log(resp);
-      setManga(resp);
+      console.log("resp", resp);
+      setManga(resp.content.data);
     })()
   }, []);
-
+  console.log("Type of manga:", typeof manga);
+  console.log("man" ,manga)
+  console.log("recentlyadded suggestion.js ", recentlyAdded)
   return (
     <MainContainer
       mainClasses="suggestion-page"
@@ -59,26 +61,45 @@ const Suggestion = memo(() => {
         <meta name="description" content={`Mangaflix manga homepage`} />
       </Helmet>
 
-      <div style={{ margin: "0px 10%", marginTop: "10px" }}><SuggestItem title="Trending Manga" link="titles/seasonal" ></SuggestItem></div>
 
+
+      <div style={{ margin: "0px 10%", marginTop: "10px" }}><SuggestItem title="Trending Manga" link="titles/seasonal" ></SuggestItem></div>
       <div className="trending">
+        {Array.isArray(manga) && manga.length === 0 ? (
+          <Spinner customStyle={{ width: "50px", height: "50px" }} />
+        ) : (
+          manga?.map((item) => (
+            <div style={{ margin: "20px 30px" }} key={item.id}>
+              <MangaVar2 manga={item} />
+            </div>
+          ))
+        )}
+      </div>
+
+
+
+      {/* <div style={{ margin: "0px 10%", marginTop: "10px" }}><SuggestItem title="Trending Manga" link="titles/seasonal" ></SuggestItem></div> */}
+
+      {/* <div className="trending">
         {
           manga && manga.data && manga.data.length > 0 ? (
             manga.data.map((item) => (
               <div style={{ margin: "20px 30px" }} key={item.id}>
                 <h3>Title: {item.attributes.title}</h3>
                 {/* Render other properties as needed */}
-                <MangaVar2 manga={item} />
-              </div>
-            ))
-          ) : (
-            <Spinner customStyle={{ width: "50px", height: "50px" }} />
-          )
-        }
+      {/* <MangaVar2 manga={item} /> */}
+      {/* </div> */}
+      {/* )) */}
+      {/* ) : ( */}
+
+      {/* // <Spinner customStyle={{ width: "50px", height: "50px" }} /> */}
+      {/* null */}
+      {/* ) */}
+      {/* } */}
 
 
 
-        {/* {seasonal.load.status === "loading" ? (
+      {/* {seasonal.load.status === "loading" ? (
           <Spinner customStyle={{ width: "50px", height: "50px" }} />
         ) : (
           seasonal?.data.map((item) => {
@@ -89,7 +110,7 @@ const Suggestion = memo(() => {
             );
           })
         )} */}
-      </div>
+      {/* </div> */}
 
 
 
@@ -125,22 +146,38 @@ const Suggestion = memo(() => {
       {/* <SuggestItem title="Latest Updates" link="">
 				<LatestUpdates chapters={latestUpdates?.data} />
 			</SuggestItem> */}
+      <>
+        {/* <Banner></Banner> */}
+      </>
 
-      {/* <Banner></Banner> */}
-      <div style={{ margin: "10px 10%" }}><SuggestItem title="Latest Update" link="titles/recently" ></SuggestItem></div>
+      <div className="latest">
+        <SuggestItem title="Latest Update" link="titles/recently" />
+
+      </div>
       <div className="latest-releases">
 
-        {recentlyAdded.load.status === "loading" ? (
+        {/* {recentlyAdded.status === "loading" ? (
           <Spinner customStyle={{ width: "50px", height: "50px" }} />
         ) : (
-          recentlyAdded?.data.map((item) => {
+          recentlyAdded?.content?.data?.map((item) => {
             return (
               <div style={{ margin: "20px 30px" }}>
                 <MangaVar3 manga={item} />
               </div>
             );
           })
-        )}
+        )
+        } */}
+        {
+
+          recentlyAdded?.data?.content?.data?.map((item) => {
+            return (
+              <div key={item.id} style={{ margin: "20px 20px" }}>
+                <MangaVar3 manga={item} />
+              </div>
+            );
+          })
+        }
       </div>
 
       {/* <div
