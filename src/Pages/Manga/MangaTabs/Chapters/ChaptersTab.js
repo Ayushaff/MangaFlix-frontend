@@ -77,13 +77,13 @@ const MangaTopBar = ({ mangaInfo }) => {
           fontWeight: "400",
           wordWrap: "break-word",
           padding: "10px",
-          fontSize: "17px", // Adjusted to string value
+          fontSize: "17px", 
           width: "auto",
         }}
       >
         Mangaflix{" "}
         <span style={{ color: theme.colors.trendingManga }}>&gt;</span>{" "}
-        {mangaInfo?.data?.attributes?.title?.en}
+        {mangaInfo?.data?.content?.data?.title?.en}
       </div>
 
       <style jsx>{`

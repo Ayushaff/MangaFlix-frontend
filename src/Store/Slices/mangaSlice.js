@@ -2,21 +2,36 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import MangaDexApi from "../../Services/MangaDexApi";
 import { collectData } from "../../Utils/layoutData";
 
+import axios from 'axios'; // Import Axios library
+
 export const fetchMangaInfo = createAsyncThunk(
     'manga/fetchMangaInfo',
-    async function({ mangaId }, {rejectWithValue, dispatch}) {
+    async function({ mangaId }, { rejectWithValue, dispatch }) {
         try {
-            const response = await MangaDexApi.getMangaInfo(mangaId);
-            if (!response.ok) {
-                throw new Error('Something is going wrong...');
+			const authToken = localStorage.getItem("auth-token");
+
+            const response = await axios.get(`http://51.161.35.231:8959/v1/manga/${mangaId}`,
+            {
+                headers: {
+                    "content-type": "application/json",
+                    "x-auth-token": authToken,                   
+                }
+            });
+
+            if (response.status !== 200) {
+                throw new Error('Something went wrong...');
             }
-            const data = await response.json();
-            dispatch(setMangaInfo(data.data));
+
+            const data = response.data;
+
+            dispatch(setMangaInfo(data));
+
         } catch (error) {
             return rejectWithValue(error.message);
         }
     }
-)
+);
+
 
 export const fetchMangaStatistics = createAsyncThunk(
     'manga/fetchMangaStatistics',

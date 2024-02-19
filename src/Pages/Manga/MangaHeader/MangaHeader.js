@@ -1,5 +1,6 @@
 import React, { memo, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
+import MuiRating from '@mui/material/Rating';
 
 import Cover from "../../../SharedUI/StyledComponents/Cover/Cover";
 
@@ -14,21 +15,22 @@ import MangaSynopsis from "../MangaSynopsis/MangaSynopsis";
 const MangaHeader = memo(({ mangaInfo = {} }) => {
   const [mangaCoverUrl, setMangaCoverUrl] = useState("");
   const theme = useSelector((state) => state.theme);
+  
 
-  const backImage = useMemo(() => {
-    if (mangaInfo.data) {
-      const mangaCover = `https://uploads.mangadex.org/covers/${
-        mangaInfo.data.id
-      }/${
-        filterSomeAttribute(mangaInfo.data.relationships, "cover_art")
-          .attributes.fileName
-      }`;
-      setMangaCoverUrl(mangaCover);
-      return {
-        backgroundImage: `url(${mangaCover})`,
-      };
-    }
-  }, [mangaInfo]);
+  // const backImage = useMemo(() => {
+  //   if (mangaInfo.data) {
+  //     const mangaCover = `https://uploads.mangadex.org/covers/${
+  //       mangaInfo.data.id
+  //     }/${
+  //       filterSomeAttribute(mangaInfo.data.relationships, "cover_art")
+  //         .attributes.fileName
+  //     }`;
+  //     setMangaCoverUrl(mangaCover);
+  //     return {
+  //       backgroundImage: `url(${mangaCover})`,
+  //     };
+  //   }
+  // }, [mangaInfo]);
 
   return (
     <>
@@ -44,13 +46,13 @@ const MangaHeader = memo(({ mangaInfo = {} }) => {
         >
           <div className="manga-header-box-1">
             <Cover
-              src={mangaCoverUrl}
+              src={mangaInfo?.data?.content?.data?.poster?.thumb}
               alt=""
               classLists={{ wrapp: "manga-cover-cl", img: "" }}
               countryIco={mangaInfo?.data?.attributes?.originalLanguage}
             />
             <Bookmark />
-            <BlackButtons />
+            <BlackButtons mangaInfo={mangaInfo} />
           </div>
           <div
             style={{
@@ -74,19 +76,52 @@ const MangaHeader = memo(({ mangaInfo = {} }) => {
   );
 });
 
+const getMonthName = (numericMonth) => {
+  const months = [
+    "January", "February", "March", "April", "May", "June", "July",
+    "August", "September", "October", "November", "December"
+  ];
+  return months[numericMonth - 1]; // Arrays are 0-indexed, so subtract 1 from the numericMonth
+};
+
 const MangaTitle = memo(({ mangaInfo }) => {
+
+  const updatedAt = mangaInfo?.data?.content?.data?.updatedAt;
+  let updatedDate = '';
+
+  if (updatedAt) {
+    const dateParts = updatedAt.split('-');
+    const year = dateParts[0];
+    const month = parseInt(dateParts[1], 10); // Parse the month to an integer
+    const day = dateParts[2];
+
+    const monthName = getMonthName(month);
+    updatedDate = `${monthName} ${day}, ${year}`;
+  }
+
+  const postedAt = mangaInfo?.data?.content?.data?.createdAt;
+  let postedDate = '';
+
+  if (postedAt) {
+    const dateParts = postedAt.split('-');
+    const year = dateParts[0];
+    const month = parseInt(dateParts[1], 10); // Parse the month to an integer
+    const day = dateParts[2];
+
+    const monthName = getMonthName(month);
+    postedDate = `${monthName} ${day}, ${year}`;
+  }
+
   const theme = useSelector((state) => state.theme);
   const enTitle = useMemo(() => {
-    const en = mangaInfo?.data?.attributes?.title?.en;
-    const ja = mangaInfo?.data?.attributes?.title?.["ja-ro"];
+    const en = mangaInfo?.data?.content?.data?.title?.en;
+    const ja = mangaInfo?.data?.content?.data?.title?.jp;
     return en ? en : ja;
   }, [mangaInfo]);
 
   const alternative = useMemo(() => {
-    const en = mangaInfo?.data?.attributes?.altTitles?.filter((el) => el.en)[0]
-      ?.en;
-    const ja = mangaInfo?.data?.attributes?.altTitles?.filter((el) => el.ja)[0]
-      ?.ja;
+    const en = mangaInfo?.data?.content?.data?.altTitles[0]?.en;
+    const ja = mangaInfo?.data?.content?.data?.altTitles[0]?.jp;
     return en ? en : ja;
   }, [mangaInfo]);
 
@@ -135,7 +170,7 @@ const MangaTitle = memo(({ mangaInfo }) => {
           fontWeight: "400",
         }}
       >
-        {mangaInfo?.data?.attributes?.description?.en}
+        {mangaInfo?.data?.content?.data?.description?.en}
       </div>
       <div
         style={{
@@ -174,7 +209,7 @@ const MangaTitle = memo(({ mangaInfo }) => {
                 wordWrap: "break-word",
               }}
             >
-              Jan 4, 2024
+               {updatedDate}
             </p>
           </div>
 
@@ -200,7 +235,7 @@ const MangaTitle = memo(({ mangaInfo }) => {
                 wordWrap: "break-word",
               }}
             >
-              Gege Akutami
+              {mangaInfo?.data?.content?.data?.author[0]}
             </p>
           </div>
         </div>
@@ -227,7 +262,7 @@ const MangaTitle = memo(({ mangaInfo }) => {
                 wordWrap: "break-word",
               }}
             >
-              Nagi
+              {mangaInfo?.data?.content?.data?.artist[0]}
             </p>
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
@@ -252,7 +287,7 @@ const MangaTitle = memo(({ mangaInfo }) => {
                 wordWrap: "break-word",
               }}
             >
-              May 17, 2024
+                {postedDate}
             </p>
           </div>
         </div>
@@ -315,7 +350,7 @@ const MangaVariablesStatus = memo(({ mangaInfo = {} }) => {
           </b>
         </p>
       </div>
-      <TagsStatus tags={tags} amount={20} />
+      <TagsStatus tags={mangaInfo?.data?.content?.data?.genre} amount={20} />
       {/* <MangaStatus
         status={status}
         additionalInfo={`Publication: ${publicationYear},`}
@@ -371,11 +406,16 @@ const Bookmark = () => {
   );
 };
 
-const BlackButtons = () => {
+const BlackButtons = ({ mangaInfo = {} }) => {
+  console.log("mangaInfo", mangaInfo)
   return (
     <>
       <button
         style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between", // Align items to the left and right
+          alignItems: "center", // Align items vertically
           color: "#B8B8B8",
           margin: "4px 10px",
           backgroundColor: "#343434",
@@ -387,8 +427,19 @@ const BlackButtons = () => {
           wordWrap: "break-word",
         }}
       >
-        <p>Ratings</p>
+        <MuiRating
+          name="haf-rating"
+          precision={0.5}
+          size="small"
+          value={mangaInfo?.data?.content?.data?.rating}
+          readOnly
+        />
+        <p style={{ textAlign: "center", margin: 0 }}>
+          {mangaInfo?.data?.content?.data?.rating}
+        </p>
       </button>
+
+
 
       <button
         style={{
@@ -426,7 +477,7 @@ const BlackButtons = () => {
               wordWrap: "break-word",
             }}
           >
-            Ongoing
+            {mangaInfo?.data?.content?.data?.status}
           </p>
         </div>
       </button>
@@ -466,7 +517,7 @@ const BlackButtons = () => {
               wordWrap: "break-word",
             }}
           >
-            Manga
+            {mangaInfo?.data?.content?.data?.type}
           </p>
         </div>
       </button>

@@ -37,7 +37,7 @@ const Manga = memo(() => {
     dispatch(fetchMangaCovers({ mangaId }));
     dispatch(fetchMangaFeed({ mangaId }));
   }, [mangaId]);
-
+console.log("mangainfo", mangaInfo)
   return (
     <MainContainer mainClasses="manga-page" containerClasses="manga-container">
       <Helmet>

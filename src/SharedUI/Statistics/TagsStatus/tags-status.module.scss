@@ -1,71 +1,69 @@
 .more {
-    background-color: transparent; 
-    color: green;
-    font-size: 10pt;
+  background-color: transparent;
+  color: green;
+  font-size: 10pt;
 }
 
 .red {
-    background-color: #ff4040;
+  background-color: #ff4040;
 }
 
 .orange {
-    background-color: #f79421;
+  background-color: #f79421;
 }
 
-.red, .orange {
-    color: black;
+.red,
+.orange {
+  color: black;
 }
 
 .default {
-    color: white;
-    background-color: rgb(52, 52, 52);
+  color: white;
+  background-color: rgb(52, 52, 52);
 }
 
 .manga_tags {
-    display: flex;
-    flex-wrap: wrap;
-    span:not(.manga-status-span) {
-        display: inline-block;
-        border-radius: .25rem;
-        padding: 1px;
-        padding-left: 5px;
-        padding-right: 5px;
-        margin: 2px;
-        display: inline-block;
-        line-height: .9375rem;
-        text-transform: uppercase;
-        font-weight: 100;
-        margin-bottom: 5px;
-        color: white;
-    font-size: 12px;
-    font-family: 'Fira Sans';
+  display: flex;
+  flex-wrap: wrap;
+  span:not(.manga-status-span) {
+    border-radius: 5%;
+    display: inline-block;
+    padding: 6px 10px ;
+    margin: 2px;
+    display: inline-block;
+    line-height: 0.9375rem;
+    text-transform: uppercase;
     font-weight: 100;
+    margin-bottom: 5px;
+    color: white;
+    font-size: 12px;
+    font-family: "Fira Sans";
+    font-weight: 70;
     word-wrap: break-word;
-    }
+  }
 }
 
 @media (max-width: 600px) {
-    .manga_tags span {
-        font-size: 7pt!important;
-
-    }
+  .manga_tags span {
+    font-size: 7pt !important;
+  }
 }
 
 @media (max-width: 520px) {
-    .manga_tags {
-        margin-bottom: 2px;
-        span:not(.manga-status-span) {
-            margin-bottom: 1px;
-        }
-
-        span {
-            font-size: 6pt!important;
-        }
+  .manga_tags {
+    margin-bottom: 2px;
+    span:not(.manga-status-span) {
+      margin-bottom: 1px;
     }
+
+    span {
+      font-size: 6pt !important;
+    }
+  }
 }
 
 @media (max-width: 300px) {
-    .manga_tags span {
-        font-size: 5pt!important;
-    }
+  .manga_tags span {
+    font-size: 5pt !important;
+  }
 }

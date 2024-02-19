@@ -18,15 +18,14 @@ const TagsStatus = ({ tags, amount, customStyles = {} }) => {
                     if (idx < amount) {
                         return (
                             <span 
-                                className={styles[colorage((el?.attributes?.name?.en).toUpperCase())]}
+                                className={styles[colorage(el)]} 
                                 style={customStyles} 
-                                
-                                key={el?.attributes?.name?.en}> 
-                                    {el?.attributes?.name?.en}
+                                key={idx}> 
+                                    {el}
                             </span>
                         )
                     } else if (idx === amount) {
-                        return <span className={styles.more} key={el?.attributes?.name?.en}>MORE</span>
+                        return <span className={styles.more} key={idx}>MORE</span> 
                     } else return null
                 })
             }
