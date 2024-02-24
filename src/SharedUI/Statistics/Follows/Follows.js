@@ -5,7 +5,7 @@ const Follows = ({ follows }) => {
     return (
         <div className="follows" style={{display: 'flex', cursor: 'pointer'}}>
             <FollowIcon alt="" />
-            <p>{follows || "9.5"}</p>
+            <p style={{fontSize : "12px"}}>{follows || "9.5"}</p>
         </div>
     );
 };

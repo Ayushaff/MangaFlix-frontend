@@ -18,10 +18,11 @@ const Rating = ({ rating, details = false }) => {
         <div ref={ref} className="rating"
             onMouseOver={() => setShouldShow(true)}
             onMouseOut={() => setShouldShow(false)} 
-            style={{display: 'flex', cursor: 'pointer'}}
+            style={{display: 'flex', cursor: 'pointer',fontSize : "14px"}}
+            
         >
             <StarIcon alt="" />
-            <p>{finalRating || "9.5"}</p>
+            <p style={{fontSize : "12px"}}>{rating || "9.5"}</p>
         </div>
 
         {shouldShow && details
