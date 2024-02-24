@@ -1,19 +1,20 @@
-import React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { collectData } from '../../Utils/layoutData';
 import Chapter from './Chapter';
 
-const Chapters = ({ volume , mangaInfo}) => {
+const Chapters = ({ mangaFeed, mangaInfo }) => {
     const [chapters, setChapters] = useState([]);
+
     useEffect(() => {
-        if (volume) {
-            setChapters(collectData(volume, 'chapter'));
+        if (mangaFeed && mangaFeed.data) {
+            setChapters(collectData(mangaFeed.data, 'chapter'));
         }
-    }, [volume])
-    
+    }, [mangaFeed]);
+
     return (
-        chapters.map((chapter, index) => <Chapter key={Object.keys(chapter)[0] + index} chapter={chapter} mangaInfo={mangaInfo}/>)
+        chapters.map((chapter, index) => (
+            <Chapter key={Object.keys(chapter)[0] + index} chapter={chapter} mangaInfo={mangaInfo} />
+        ))
     );
 };
 

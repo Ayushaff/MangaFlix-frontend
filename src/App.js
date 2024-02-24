@@ -15,6 +15,7 @@ import CreateList from './Pages/CreateList/CreateList';
 import themeSlice from './Store/Slices/themeSlice';
 import { useSelector } from 'react-redux';
 import Footer from './Components/Footer/Footer';
+import ChapterPage from './Components/VolumesFeed/ChapterPage';
 
 const App = () => {
   const theme=useSelector((state)=>state.theme)
@@ -54,7 +55,7 @@ const App = () => {
 
           <Route path='/create/list' element={<CreateList />} />
           <Route path='/about' element={<About />} />
-
+          <Route exact path="/chapter/mangaId/:mangaId" element={<ChapterPage/>} />
           
           <Route path='*' element={<Main />} />
         </Routes>

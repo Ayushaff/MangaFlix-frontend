@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setReaderStatus } from "../../Store/Slices/menuSlice";
 import { useParams } from "react-router-dom";
@@ -10,12 +10,13 @@ import Spinner from "../../SharedUI/LoadComponents/Spiner/Spinner";
 
 import MangaDexApi from "../../Services/MangaDexApi";
 import { Helmet } from "react-helmet";
+import axios from "axios";
 
 const Read = () => {
   const params = useParams();
   const isInitialMount = useRef(true);
   const mangaId = params["*"];
-
+  const chapterId = params["*"];
   const clientHeight = document.documentElement.clientHeight - 20;
   const clientWidth = document.documentElement.clientWidth;
 
@@ -31,8 +32,25 @@ const Read = () => {
   });
   const [images, setImages] = useState([]);
 
+  const [mangaFeedData, setMangaFeedData] = useState(null);
+
   const dispatch = useDispatch();
   const menu = useSelector((store) => store.menu.readerMenu);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://51.161.35.231:8959/v1/chapter/${chapterId}`);
+        setMangaFeedData(response.data);
+
+        console.log("nmaf", mangaFeedData?.content?.data?.pages?.server1);
+      } catch (error) {
+        console.error("Error fetching manga feed:", error);
+      }
+    };
+
+    fetchData();
+  }, [chapterId]);
 
   useEffect(() => {
     (async () => {
@@ -41,7 +59,7 @@ const Read = () => {
       );
       setMangaTitle(
         mangaName?.data?.attributes?.title?.en ||
-          mangaName?.data?.attributes?.title?.["ja-ro"]
+        mangaName?.data?.attributes?.title?.["ja-ro"]
       );
     })();
   }, []);
@@ -75,14 +93,14 @@ const Read = () => {
         ? chaptersIds[chaptersIds.length - 1]
         : chaptersIds[chapterLangId];
 
-    const chapterHash = await MangaDexApi.getChapterHash(chapterId);
-    const chapterName = await MangaDexApi.getInfoAboutChapter([chapterId]);
+    // const chapterHash = await MangaDexApi.getChapterHash(chapterId);
+    // const chapterName = await MangaDexApi.getInfoAboutChapter([chapterId]);
 
-    setChapterTitle(chapterName[0]?.data?.attributes?.title);
+    // setChapterTitle(chapterName[0]?.data?.attributes?.title);
 
-    const images = chapterHash?.chapter?.data?.map(
-      (el) => `${chapterHash?.baseUrl}/data/${chapterHash?.chapter?.hash}/${el}`
-    );
+    // const images = chapterHash?.chapter?.data?.map(
+    //   (el) => `${chapterHash?.baseUrl}/data/${chapterHash?.chapter?.hash}/${el}`
+    // );
 
     setImages(images);
 
@@ -150,92 +168,27 @@ const Read = () => {
     }
   };
 
-  const handleNextImg = () => {
-    document.documentElement.scrollTop = document.documentElement.scrollHeight;
-
-    if (
-      currentChapter.currImg === currentChapter.maxImg &&
-      currentChapter.counter + 1 <=
-        Object.keys(mangaVolumes[currentChapter.volume]?.chapters).length - 1
-    ) {
-      setCurrentChapter((currentChapter) => ({
-        ...currentChapter,
-        chapter: currentChapter.chapter + 1,
-        counter: currentChapter.counter + 1,
-        currImg: 1,
-        maxImg: 1,
-      }));
-      setImages([]);
-    } else if (
-      currentChapter.currImg === currentChapter.maxImg &&
-      currentChapter.counter + 1 >
-        Object.keys(mangaVolumes[currentChapter.volume]?.chapters).length - 1
-    ) {
-      setCurrentChapter((currentChapter) => ({
-        volume: currentChapter.volume + 1,
-        chapter: currentChapter.chapter + 1,
-        counter: 1,
-        currImg: 1,
-        maxImg: 1,
-      }));
-      setImages([]);
-    } else {
-      setCurrentChapter((currentChapter) => ({
-        ...currentChapter,
-        currImg: currentChapter.currImg + 1,
+  const handleNextPage = () => {
+    if (currentChapter.currImg < mangaFeedData.content.data.pages.server1.length) {
+      setCurrentChapter((prevState) => ({
+        ...prevState,
+        currImg: prevState.currImg + 1,
       }));
     }
   };
 
-  const handlePrevImg = () => {
-    document.documentElement.scrollTop = document.documentElement.scrollHeight;
+  const handleNextImg = () => {
+    setCurrentChapter(prevState => ({
+      ...prevState,
+      currImg: Math.min(prevState.currImg + 1, mangaFeedData?.content?.data?.pages?.server1?.length || 1)
+    }));
+  };
 
-    if (
-      currentChapter.currImg === 1 &&
-      currentChapter.volume === 1 &&
-      currentChapter.chapter === 1
-    ) {
-      setCurrentChapter({
-        ...currentChapter,
-        chapter:
-          Object.keys(mangaVolumes[currentChapter.volume]?.chapters).length - 1,
-        counter:
-          Object.keys(mangaVolumes[currentChapter.volume]?.chapters).length - 1,
-        currImg: 1,
-        maxImg: 1,
-      });
-      setImages([]);
-    } else if (
-      currentChapter.currImg === 1 &&
-      currentChapter.volume !== 1 &&
-      currentChapter.counter - 1 === 0
-    ) {
-      setCurrentChapter({
-        ...currentChapter,
-        volume: currentChapter.volume - 1,
-        chapter: currentChapter.chapter - 1,
-        counter:
-          Object.keys(mangaVolumes[currentChapter.volume - 1]?.chapters)
-            .length - 1,
-        currImg: 1,
-        maxImg: 1,
-      });
-      setImages([]);
-    } else if (currentChapter.currImg === 1 && currentChapter.counter !== 1) {
-      setCurrentChapter({
-        ...currentChapter,
-        chapter: currentChapter.chapter - 1,
-        counter: currentChapter.counter - 1,
-        currImg: 1,
-        maxImg: 1,
-      });
-      setImages([]);
-    } else {
-      setCurrentChapter({
-        ...currentChapter,
-        currImg: currentChapter.currImg - 1,
-      });
-    }
+  const handlePrevImg = () => {
+    setCurrentChapter(prevState => ({
+      ...prevState,
+      currImg: Math.max(prevState.currImg - 1, 1)
+    }));
   };
 
   const handleMenu = () => {
@@ -260,7 +213,19 @@ const Read = () => {
     });
   };
 
-  return (
+  const observer = useRef(null);
+  const lastImageRef = useCallback((node) => {
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        handleNextPage();
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, []);
+
+
+  return (<>
     <main className="chapter-page">
       <Helmet>
         <meta charSet="utf-8" />
@@ -294,7 +259,7 @@ const Read = () => {
             >
               <path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
             </svg>
-            <p className="chapter-name">{chapterTitle}</p>
+            <p className="chapter-name">{mangaFeedData?.content?.data?.title}</p>
           </div>
           <p className="manga-name">{mangaTitle}</p>
         </div>
@@ -328,14 +293,27 @@ const Read = () => {
             </svg>
           </div>
         </div>
-        <p className="translator">Some guy's scans</p>
       </div>
-      <div
-        className="chapter-content"
-        style={{ maxHeight: clientHeight }}
-        onClick={mangaContentDelegate}
-      >
-        {images && images.length > 0 ? (
+      <div className="chapter-content"  style={{ display: "flex",flexDirection:"column"}} onClick={mangaContentDelegate}>
+        {mangaFeedData?.content?.data?.pages?.server1?.map((imageUrl, idx) => (
+          <img
+            key={idx}
+            referrerPolicy="no-referrer"
+            src={imageUrl}
+            style={{
+              // Adjust display condition to always show the image
+              display: "block",  // Always display the image
+              maxHeight: clientHeight,
+              maxWidth: clientWidth - 40,
+            }}
+            alt={`img-${idx}`}
+          />
+        ))}
+
+
+
+
+        {/* {images && images.length > 0 ? (
           images?.map((el, idx) => {
             if (idx + 1 === currentChapter.currImg) {
               return (
@@ -377,7 +355,7 @@ const Read = () => {
               }}
             />
           </div>
-        )}
+        )} */}
       </div>
       <SideMenu options={{ menuType: "reader" }}>
         <SideReader
@@ -390,7 +368,8 @@ const Read = () => {
           handleImage={handleImage}
         />
       </SideMenu>
-    </main>
+    </main >
+  </>
   );
 };
 
