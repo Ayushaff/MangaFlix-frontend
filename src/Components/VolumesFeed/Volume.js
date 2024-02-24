@@ -1,25 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./chapters.module.scss";
 import Chapters from "./Chapters";
 
-const Volume = ({ volume, mangaInfo }) => {
-  const [title, setTitle] = useState("");
-  const [interval, setInterval] = useState([0, 0]);
-  useEffect(() => {
-    if (volume) {
-      const title = Object.keys(volume)[0];
-      setTitle(title);
-      setInterval([
-        Math.floor(volume[title][0]?.attributes?.chapter),
-        Math.floor(
-          volume[title][volume[title].length - 1]?.attributes?.chapter
-        ),
-      ]);
-    }
-  }, [volume]);
+const Volume = ({ chapter, mangaInfo }) => {
+  const { title, chapterNumber, summary } = chapter;
 
   return (
     <div className={styles.volume_item}>
+      {console.log("as",chapter)}
       <div className={styles.volume_title}>
         <p
           style={{
@@ -40,7 +28,7 @@ const Volume = ({ volume, mangaInfo }) => {
             fontWeight: "500",
           }}
         >
-          {`Ch. ${interval[0]} - ${interval[1]}`}
+          Chapter {chapterNumber}
         </p>
 
         <p
@@ -51,10 +39,10 @@ const Volume = ({ volume, mangaInfo }) => {
             fontWeight: "500",
           }}
         >
-          {volume[title]?.length}
+          {summary}
         </p>
       </div>
-      <Chapters volume={volume[title]} mangaInfo={mangaInfo} />
+      <Chapters volume={chapter.pages} mangaInfo={mangaInfo} />
     </div>
   );
 };
