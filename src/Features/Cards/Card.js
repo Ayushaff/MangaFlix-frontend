@@ -9,7 +9,7 @@ import { filterSomeAttribute } from '../../Utils/filterAttribute';
 import { strToUpper } from '../../Utils/stringToUpperCase';
 import styles from './card.module.scss';
 
-const Card = memo(({ handleMangas, manga, mangaInfo, statistics, setRefCover, refCoverStyle, refTitleStyle }) => {
+const Card = memo(({ handleMangas = ()=>{}, manga, mangaInfo, statistics, setRefCover, refCoverStyle, refTitleStyle }) => {
     const [status, setStatus] = useState(false);
 
     const navigate = useNavigate();
@@ -25,53 +25,52 @@ const Card = memo(({ handleMangas, manga, mangaInfo, statistics, setRefCover, re
 
     return (
         <div className={styles.item}>
-            <p className={styles.name}>{strToUpper(manga.related)}</p>
+            {/* <p className={styles.name}>{strToUpper(manga.title)}</p> */}
             <div className={styles.item_content}>
                 <div onClick={handleManga} ref={setRefCover} className={styles.cover + ' ' + refCoverStyle}>
                     <Img 
-                        src={`https://uploads.mangadex.org/covers/${mangaInfo?.id}/${filterSomeAttribute(mangaInfo?.relationships, 'cover_art', 'fileName')}`} 
+                        src={`${manga.poster.thumb}`} 
                         alt='' 
                     />
                 </div>
                 <div className={styles.description}>
                     <div className={styles.title + ' ' + refTitleStyle}>
-                        <div onClick={handleManga} className={styles.manganame}>{mangaInfo ? cutString(Object.values(mangaInfo.attributes.title)[0], 32) : ''}</div>
+                        <div onClick={handleManga} className={styles.manganame}>{manga.title.en}</div>
                         <div className={styles.statistics}>
-                            {statistics 
-                                ? <>
-                                  <Rating rating={statistics.rating} />
-                                  <Follows follows={statistics.follows} />
-                                  <Seen statistic={[]} />
-                                  <Comments statistic={[]} />
+                            <>
+                                  <Rating rating={manga.rating} />
+                                  <Follows follows={manga.follows} />
+                                  <Seen seen={manga.views}/>
+                                  {/* <Comments statistic={[]} /> */}
                                   </>
-                                : null
-                            }
+                            
                             <MangaStatus 
-                                status={mangaInfo?.attributes?.status} 
-                                styles={{textStyles: { fontSize: '.9rem' }}}
+                                status={manga.status} 
+                                styles={{textStyles: { fontSize: '10px' }}}
                             />
                         </div>
                     </div>
                         <div>
                             <TagsStatus 
-                                tags={mangaInfo?.attributes?.tags} 
+                            
+                                tags={manga.genre} 
                                 amount={20}
                                 customStyles={{backgroundColor: 'white'}}
                             />
                     </div>
-                    <div className={styles.main_title}>
+                    <div className={styles.main_title} style={{fontSize : "14px"}}>
                         {
-                            cutString(mangaInfo?.attributes?.description?.en, 450)
+                            cutString(manga.description.en, 450)
                         }
                     </div>
                 </div>
             </div>
-            {handleMangas
+            {/* {handleMangas
                 ? <div onClick={handleChoice} className={status ? styles.minus : styles.plus}>
                       {status ? '-' : '+' }
                   </div>
                 : null
-            }
+            } */}
         </div>
     );
 });

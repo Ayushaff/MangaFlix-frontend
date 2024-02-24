@@ -3,11 +3,11 @@ class MangaflixApi {
     CorsProxy = 'https://web-production-3f96.up.railway.app/';
     baseUrl = `${this.CorsProxy}http://51.161.35.231:8959`;
 
-    getAllManga = async () => {
+    getAllManga = async (page="",limit="",search="") => {
         try {
             const authToken = localStorage.getItem("auth-token");
             const response = await axios.get(
-                `http://51.161.35.231:8959/v1/manga?page=&limit=&search=`,
+                `http://51.161.35.231:8959/v1/manga?page=${page}&limit=${limit}&search=${search}`,
                 {
                     headers: {
                         "Content-Type": "multipart/form-data",

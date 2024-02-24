@@ -26,10 +26,14 @@ import useFetchByFilters from './Hooks/useFetchByFilters';
 import fetchTitleVariable from './Utils/fetchTitleVariable';
 import setTitle from './Utils/setTitle';
 import { Helmet } from 'react-helmet';
+import axios from 'axios';
+import MangaflixApi from '../../Services/MangaflixApi';
+import Card from '../../Features/Cards/Card';
 
 const Titles = memo(({ hasFilter = true, customTitle = '', handleManga }) => {
 	const params = useParams();
 	const [groupedTags, setGroupedTags] = useState([]);
+	const [manga,setManga] = useState([]);
 	const [selected, setSelected] = useState({
 		name: 'Best Match',
 		val: 'relevance.desc',
@@ -46,6 +50,8 @@ const Titles = memo(({ hasFilter = true, customTitle = '', handleManga }) => {
 
 	const title = params['*'];
 	const pageTitle = useMemo(() => setTitle(title), [title]);
+
+	
 
 	const sortValues = useMemo(
 		() => [
@@ -67,7 +73,11 @@ const Titles = memo(({ hasFilter = true, customTitle = '', handleManga }) => {
 	);
 
 	useEffect(() => {
+		console.log("POPO");
 		(async () => {
+			const resp = await MangaflixApi.getAllManga();
+			console.log("RESPEKT",resp);
+			setManga(resp.content.data);
 			const data = await fetchTitleVariable(params['*']);
 			dispatch(setMangaIds(data.data.map((item) => item?.id) ?? []));
 		})();
@@ -132,13 +142,24 @@ const Titles = memo(({ hasFilter = true, customTitle = '', handleManga }) => {
 					hasFilter={hasFilter}
 				/>
 			) : null}
-			<ComponentByStatus
+
+			{
+				manga.map((item)=>{
+					return (
+						<>
+							<Card manga={item}></Card>
+						</>
+					)
+				})
+			}
+
+			{/* <ComponentByStatus
 				filteredManga={filteredManga}
 				sortValues={sortValues}
 				selected={selected}
 				setSelected={setSelected}
 				handleManga={handleManga}
-			/>
+			/> */}
 		</MainContainer>
 	);
 });

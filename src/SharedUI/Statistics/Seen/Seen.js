@@ -1,11 +1,11 @@
 import React from 'react';
 import { SeenIcon } from '../../../Assets/Svg/Statistics';
 
-const Seen = ({ statistic }) => {
+const Seen = ({ seen }) => {
     return (
         <div className="seen" style={{display: 'flex'}}>
             <SeenIcon alt="" />
-            <p>{statistic?.seen || "N/A"}</p>
+            <p style={{fontSize : "12px"}}>{seen || "N/A"}</p>
         </div>
     );
 };

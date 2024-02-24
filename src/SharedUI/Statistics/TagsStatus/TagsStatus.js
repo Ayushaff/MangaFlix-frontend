@@ -18,8 +18,9 @@ const TagsStatus = ({ tags, amount, customStyles = {} }) => {
                     if (idx < amount) {
                         return (
                             <span 
+                            
                                 className={styles[colorage(el)]} 
-                                style={customStyles} 
+                                style={{fontSize : "10px",backgroundColor : "rgb(52, 52, 52)",borderRadius : "8px"}} 
                                 key={idx}> 
                                     {el}
                             </span>
