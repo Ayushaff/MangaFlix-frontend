@@ -21,6 +21,9 @@ const Read = () => {
   const clientWidth = document.documentElement.clientWidth;
 
   const [mangaVolumes, setMangaVolumes] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [mangaTitle, setMangaTitle] = useState("");
   const [chapterTitle, setChapterTitle] = useState("");
   const [currentChapter, setCurrentChapter] = useState({
@@ -36,6 +39,12 @@ const Read = () => {
 
   const dispatch = useDispatch();
   const menu = useSelector((store) => store.menu.readerMenu);
+  const handleImageTap = () => {
+    // Check if there's a next image to display
+    if (currentImageIndex < mangaFeedData?.content?.data?.pages?.server1?.length - 1) {
+      setCurrentImageIndex(prevIndex => prevIndex + 1);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -178,17 +187,91 @@ const Read = () => {
   };
 
   const handleNextImg = () => {
-    setCurrentChapter(prevState => ({
-      ...prevState,
-      currImg: Math.min(prevState.currImg + 1, mangaFeedData?.content?.data?.pages?.server1?.length || 1)
-    }));
+    document.documentElement.scrollTop = document.documentElement.scrollHeight;
+
+    if (
+      currentChapter.currImg === currentChapter.maxImg &&
+      currentChapter.counter + 1 <=
+      Object.keys(mangaVolumes[currentChapter.volume]?.chapters).length - 1
+    ) {
+      setCurrentChapter((currentChapter) => ({
+        ...currentChapter,
+        chapter: currentChapter.chapter + 1,
+        counter: currentChapter.counter + 1,
+        currImg: 1,
+        maxImg: 1,
+      }));
+      setImages([]);
+    } else if (
+      currentChapter.currImg === currentChapter.maxImg &&
+      currentChapter.counter + 1 >
+      Object.keys(mangaVolumes[currentChapter.volume]?.chapters).length - 1
+    ) {
+      setCurrentChapter((currentChapter) => ({
+        volume: currentChapter.volume + 1,
+        chapter: currentChapter.chapter + 1,
+        counter: 1,
+        currImg: 1,
+        maxImg: 1,
+      }));
+      setImages([]);
+    } else {
+      setCurrentChapter((currentChapter) => ({
+        ...currentChapter,
+        currImg: currentChapter.currImg + 1,
+      }));
+    }
   };
 
   const handlePrevImg = () => {
-    setCurrentChapter(prevState => ({
-      ...prevState,
-      currImg: Math.max(prevState.currImg - 1, 1)
-    }));
+    document.documentElement.scrollTop = document.documentElement.scrollHeight;
+
+    if (
+      currentChapter.currImg === 1 &&
+      currentChapter.volume === 1 &&
+      currentChapter.chapter === 1
+    ) {
+      setCurrentChapter({
+        ...currentChapter,
+        chapter:
+          Object.keys(mangaVolumes[currentChapter.volume]?.chapters).length - 1,
+        counter:
+          Object.keys(mangaVolumes[currentChapter.volume]?.chapters).length - 1,
+        currImg: 1,
+        maxImg: 1,
+      });
+      setImages([]);
+    } else if (
+      currentChapter.currImg === 1 &&
+      currentChapter.volume !== 1 &&
+      currentChapter.counter - 1 === 0
+    ) {
+      setCurrentChapter({
+        ...currentChapter,
+        volume: currentChapter.volume - 1,
+        chapter: currentChapter.chapter - 1,
+        counter:
+          Object.keys(mangaVolumes[currentChapter.volume - 1]?.chapters)
+            .length - 1,
+        currImg: 1,
+        maxImg: 1,
+      });
+      setImages([]);
+    } else if (currentChapter.currImg === 1 && currentChapter.counter !== 1) {
+      setCurrentChapter({
+        ...currentChapter,
+        chapter: currentChapter.chapter - 1,
+        counter: currentChapter.counter - 1,
+        currImg: 1,
+        maxImg: 1,
+      });
+      setImages([]);
+    } else {
+      setCurrentChapter({
+        ...currentChapter,
+        currImg: currentChapter.currImg - 1,
+      });
+    }
   };
 
   const handleMenu = () => {
@@ -223,6 +306,12 @@ const Read = () => {
     });
     if (node) observer.current.observe(node);
   }, []);
+// Define constants for number of pages per page
+        const pagesPerPage = 1; // Adjust this value as needed
+
+        // Calculate starting and ending indices for the current page
+        const startIndex = (currentPage - 1) * pagesPerPage;
+        const endIndex = Math.min(startIndex + pagesPerPage, mangaFeedData?.content?.data?.pages?.server1?.length);
 
 
   return (<>
@@ -294,22 +383,22 @@ const Read = () => {
           </div>
         </div>
       </div>
-      <div className="chapter-content"  style={{ display: "flex",flexDirection:"column"}} onClick={mangaContentDelegate}>
-        {mangaFeedData?.content?.data?.pages?.server1?.map((imageUrl, idx) => (
-          <img
-            key={idx}
-            referrerPolicy="no-referrer"
-            src={imageUrl}
-            style={{
-              // Adjust display condition to always show the image
-              display: "block",  // Always display the image
-              maxHeight: clientHeight,
-              maxWidth: clientWidth - 40,
-            }}
-            alt={`img-${idx}`}
-          />
+      <div className="chapter-content" style={{ display: "flex", flexDirection: "column" }} onClick={mangaContentDelegate}>
+      {mangaFeedData?.content?.data?.pages?.server1?.map((imageUrl, idx) => (
+          <div key={idx} style={{ display: idx === currentImageIndex ? "block" : "none" }}>
+            <img
+              referrerPolicy="no-referrer"
+              src={imageUrl}
+              style={{
+                maxHeight: clientHeight,
+                maxWidth: clientWidth - 40,
+              }}
+              alt={`img-${idx}`}
+              onClick={handleImageTap} // Attach onClick handler to the image
+            />
+            <p style={{ textAlign: "center" }}>Page {idx + 1} of {mangaFeedData?.content?.data?.pages?.server1?.length}</p>
+          </div>
         ))}
-
 
 
 
