@@ -19,13 +19,13 @@ const ChapterItem = ({ chapter, mangaId, chapterId }) => {
                 </div>
             </div>
             {/* Uncomment the following code if you want to render chapter images */}
-            <div className={styles.chapter_images}>
+            {/* <div className={styles.chapter_images}>
                 {
                     chapter.pages.server1.map((page, pageIndex) => (
                         <img key={pageIndex} src={page} alt={`Page ${pageIndex + 1}`} />
                     ))
                 }
-            </div>
+            </div> */}
         </div>
     );
 };
