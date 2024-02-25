@@ -54,6 +54,40 @@
     text-align: center;
     gap: 15px;
     margin-bottom: 20px;
+    /* CSS */
+    .c-server {
+      position: relative;
+    }
+
+    .select-menu {
+      appearance: none;
+      background-color: #222;
+      color: white;
+      border: 1px solid #444;
+      padding: 10px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    .select-menu option {
+      color: white;
+      background-color: #222;
+    }
+
+    .select-menu::-ms-expand {
+      display: none;
+    }
+
+    .select-menu::after {
+      content: "\25BC";
+      position: absolute;
+      top: calc(50% - 4px);
+      right: 10px;
+      color: #fff;
+      pointer-events: none;
+    }
   }
 
   .read-progress-info div {
@@ -112,17 +146,40 @@
 
   .chapter-content {
     width: 100%;
-    grid-area: chapter-content;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-
     img {
       margin-left: auto;
       margin-right: auto;
       padding-top: 10px;
       padding-bottom: 10px;
       user-select: none;
+      align-items: center;
+    }
+
+    .left-button {
+      position: absolute;
+      top: 50%;
+      left: -40px; /* Adjust as needed */
+      transform: translateY(-50%);
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 1; /* Ensure it's above the image */
+    }
+
+    .right-button {
+      position: absolute;
+      top: 50%;
+      right: -40px; /* Adjust as needed */
+      size: 3cm;
+      transform: translateY(-50%);
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 1; /* Ensure it's above the image */
     }
   }
 }
@@ -139,6 +196,7 @@
     .chapter-title {
       text-align: center;
       width: auto;
+
       .chapter-name {
         font-size: 20px;
       }
@@ -176,7 +234,7 @@
       align-items: center;
       overflow: hidden;
       img {
-        max-width: 100%; /* Ensure images don't exceed their container width */
+        max-width: 90%; /* Ensure images don't exceed their container width */
         width: auto; /* Add this property to make images responsive */
         height: auto;
         user-select: none;
