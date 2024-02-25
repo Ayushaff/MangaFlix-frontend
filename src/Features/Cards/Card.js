@@ -8,10 +8,11 @@ import { cutString } from '../../Utils/cutString';
 import { filterSomeAttribute } from '../../Utils/filterAttribute';
 import { strToUpper } from '../../Utils/stringToUpperCase';
 import styles from './card.module.scss';
+import { useSelector } from 'react-redux';
 
 const Card = memo(({ handleMangas = ()=>{}, manga, mangaInfo, statistics, setRefCover, refCoverStyle, refTitleStyle }) => {
     const [status, setStatus] = useState(false);
-
+    const theme = useSelector((state) => state.theme);
     const navigate = useNavigate();
     
     const handleManga = () => {
@@ -26,7 +27,7 @@ const Card = memo(({ handleMangas = ()=>{}, manga, mangaInfo, statistics, setRef
     return (
         <div className={styles.item}>
             {/* <p className={styles.name}>{strToUpper(manga.title)}</p> */}
-            <div className={styles.item_content}>
+            <div className={styles.item_content} style={{backgroundColor : theme.darkmode ? "rgb(34,34,34)" : "white"}}>
                 <div onClick={handleManga} ref={setRefCover} className={styles.cover + ' ' + refCoverStyle}>
                     <Img 
                         src={`${manga.poster.thumb}`} 
@@ -35,7 +36,7 @@ const Card = memo(({ handleMangas = ()=>{}, manga, mangaInfo, statistics, setRef
                 </div>
                 <div className={styles.description}>
                     <div className={styles.title + ' ' + refTitleStyle}>
-                        <div onClick={handleManga} className={styles.manganame}>{manga.title.en}</div>
+                        <div onClick={handleManga} className={styles.manganame} style={{color : theme.darkmode ? "white" : "black"}}>{manga.title.en}</div>
                         <div className={styles.statistics}>
                             <>
                                   <Rating rating={manga.rating} />
@@ -58,7 +59,7 @@ const Card = memo(({ handleMangas = ()=>{}, manga, mangaInfo, statistics, setRef
                                 customStyles={{backgroundColor: 'white'}}
                             />
                     </div>
-                    <div className={styles.main_title} style={{fontSize : "14px"}}>
+                    <div className={styles.main_title} style={{color : theme.darkmode ? "white" : "black", fontSize : "14px"}}>
                         {
                             cutString(manga.description.en, 450)
                         }
