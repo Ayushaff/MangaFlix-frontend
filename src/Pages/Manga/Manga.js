@@ -19,6 +19,7 @@ import ChaptersTab from "./MangaTabs/Chapters/ChaptersTab";
 const Manga = memo(() => {
   const params = useParams();
   const mangaId = useMemo(() => params.id, [params]);
+  console.log("mangaid", mangaId);
 
   const dispatch = useDispatch();
   const mangaInfo = useSelector((state) => state.manga.mangaInfo);

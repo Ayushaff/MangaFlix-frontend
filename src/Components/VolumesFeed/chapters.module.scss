@@ -3,6 +3,32 @@
     margin: 0px 30px;
     //width: 100%;
 }
+.chapter_item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chapter_title {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.chapter_number {
+    color: #666;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.chapter_summary {
+    color: #888;
+    font-size: 1rem;
+    line-height: 1.5;
+}
 
 .controls_block {
     display: flex;
