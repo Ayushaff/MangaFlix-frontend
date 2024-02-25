@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setReaderStatus } from "../../Store/Slices/menuSlice";
 import { useParams } from "react-router-dom";
 import "./reader-page.scss";
+import LazyLoad from 'react-lazyload';
 
 import SideMenu from "../../Features/SideMenu/SideMenu";
 import SideReader from "./SideReader/SideReader";
@@ -10,9 +11,11 @@ import Spinner from "../../SharedUI/LoadComponents/Spiner/Spinner";
 
 import MangaDexApi from "../../Services/MangaDexApi";
 import { Helmet } from "react-helmet";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-
 const Read = () => {
+  const [serverData, setServerData] = useState([]);
   const params = useParams();
   const isInitialMount = useRef(true);
   const mangaId = params["*"];
@@ -20,8 +23,9 @@ const Read = () => {
   const clientHeight = document.documentElement.clientHeight - 20;
   const clientWidth = document.documentElement.clientWidth;
 
+  const [pageNumber, setPageNumber] = useState(1);
   const [mangaVolumes, setMangaVolumes] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); 
+  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [mangaTitle, setMangaTitle] = useState("");
@@ -36,6 +40,11 @@ const Read = () => {
   const [images, setImages] = useState([]);
 
   const [mangaFeedData, setMangaFeedData] = useState(null);
+  const [currentVolume, setCurrentVolume] = useState(1);
+  const [currentChapterNum, setCurrentChapterNum] = useState(1);
+  const [selectedServer, setSelectedServer] = useState('Server-01'); // State to track the selected server
+
+  // Handler function for server selection change
 
   const dispatch = useDispatch();
   const menu = useSelector((store) => store.menu.readerMenu);
@@ -50,8 +59,11 @@ const Read = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://51.161.35.231:8959/v1/chapter/${chapterId}`);
+        console.log("ch", chapterId);
+        setTotalPages(response.data?.content?.data?.pages?.server1?.length || 0); // Set total pages here
         setMangaFeedData(response.data);
-
+        setServerData(response.data?.content?.data?.pages?.server1 || []);
+        setVolumeAndChapterInfo(response.data);
         console.log("nmaf", mangaFeedData?.content?.data?.pages?.server1);
       } catch (error) {
         console.error("Error fetching manga feed:", error);
@@ -60,6 +72,16 @@ const Read = () => {
 
     fetchData();
   }, [chapterId]);
+
+
+  const setVolumeAndChapterInfo = (data) => {
+    // Extract volume and chapter information from data and set the state
+    const volume = data?.content?.data?.volume || 1; // Default to 1 if volume is not provided
+    const chapter = data?.content?.data?.chapterNumber || 1; // Default to 1 if chapter is not provided
+    setCurrentVolume(volume);
+    setCurrentChapterNum(chapter);
+  };
+
 
   useEffect(() => {
     (async () => {
@@ -166,16 +188,20 @@ const Read = () => {
   }, [currentChapter.volume, currentChapter.chapter, mangaVolumes]);
 
   const mangaContentDelegate = (e) => {
-    const leftBorder = clientWidth / 2.3;
-    const rightBorder = clientWidth / 2 + (clientWidth / 2 - leftBorder);
-
-    if (e.pageX > leftBorder && e.pageX < rightBorder) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const leftBorder = rect.left + (rect.width / 3); // Left third of the element
+    const rightBorder = rect.left + (2 * rect.width / 3); // Right two-thirds of the element
+    if (e.pageX < leftBorder) {
+      console.log("prev");
+      handlePrevImage(); // Go to previous image
     } else if (e.pageX > rightBorder) {
-      handleNextImg();
-    } else {
-      handlePrevImg();
+      console.log("righ");
+
+      handleNextImage(); // Go to next image (optional)
     }
   };
+
+
 
   const handleNextPage = () => {
     if (currentChapter.currImg < mangaFeedData.content.data.pages.server1.length) {
@@ -184,7 +210,30 @@ const Read = () => {
         currImg: prevState.currImg + 1,
       }));
     }
+
   };
+
+  const handlePrevImage = () => {
+    if (currentImageIndex > 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
+      setPageNumber(currentImageIndex);
+    } else {
+      // Optionally, handle the case when the current image is already the first image
+      // For example, you can loop back to the last image or display a message
+      // setCurrentImageIndex(mangaFeedData?.content?.data?.pages?.server1?.length - 1);
+    }
+  };
+
+  const handleNextImage = () => {
+    if (currentImageIndex < mangaFeedData?.content?.data?.pages?.server1?.length - 1) {
+      setCurrentImageIndex(currentImageIndex + 1);
+      setPageNumber(currentImageIndex + 2);
+    } else {
+      setCurrentImageIndex(0);
+      setPageNumber(1);
+    }
+  };
+
 
   const handleNextImg = () => {
     document.documentElement.scrollTop = document.documentElement.scrollHeight;
@@ -306,14 +355,22 @@ const Read = () => {
     });
     if (node) observer.current.observe(node);
   }, []);
-// Define constants for number of pages per page
-        const pagesPerPage = 1; // Adjust this value as needed
+  // Define constants for number of pages per page
+  const pagesPerPage = 1; // Adjust this value as needed
 
-        // Calculate starting and ending indices for the current page
-        const startIndex = (currentPage - 1) * pagesPerPage;
-        const endIndex = Math.min(startIndex + pagesPerPage, mangaFeedData?.content?.data?.pages?.server1?.length);
+  // Calculate starting and ending indices for the current page
+  const startIndex = (currentPage - 1) * pagesPerPage;
+  const endIndex = Math.min(startIndex + pagesPerPage, mangaFeedData?.content?.data?.pages?.server1?.length);
 
-
+  function handleServerChange(server) {
+    setSelectedServer(server);
+    // Set the server data based on the selected server
+    if (server === 'Server-01') {
+      setServerData(mangaFeedData?.content?.data?.pages?.server1 || []);
+    } else if (server === 'Server-02') {
+      setServerData(mangaFeedData?.content?.data?.pages?.server2 || []);
+    }
+  }
   return (<>
     <main className="chapter-page">
       <Helmet>
@@ -355,19 +412,28 @@ const Read = () => {
 
         <div className="read-progress-info">
           <div className="c-server">
-            <p>Server-01</p>{" "}
+            <select
+              className="select-menu"
+              value={selectedServer}
+              onChange={(e) => handleServerChange(e.target.value)}
+            >
+              <option value="Server-01">Server-01</option>
+              <option value="Server-02">Server-02</option>
+            </select>
           </div>
+
+
           <div className="c-vol">
             {" "}
             <p>
               {" "}
-              {`Vol. ${currentChapter?.volume}
-                        Ch. ${currentChapter.chapter}`}
+              {`Vol. ${mangaFeedData?.content?.data?.volume}
+                        Ch. ${mangaFeedData?.content?.data?.chapterNumber}`}
             </p>
           </div>
           <div className="c-pg">
             {" "}
-            <p> {`Pg. ${currentChapter.currImg}/${currentChapter.maxImg}`} </p>
+            <p> {`Pg . ${pageNumber}/${totalPages}`}</p>
           </div>
           <div className="c-menu" onClick={handleMenu}>
             <p>Menu</p>
@@ -383,27 +449,48 @@ const Read = () => {
           </div>
         </div>
       </div>
+
       <div className="chapter-content" style={{ display: "flex", flexDirection: "column" }} onClick={mangaContentDelegate}>
-      {mangaFeedData?.content?.data?.pages?.server1?.map((imageUrl, idx) => (
-          <div key={idx} style={{ display: idx === currentImageIndex ? "block" : "none" }}>
-            <img
-              referrerPolicy="no-referrer"
-              
-              src={imageUrl}
-              style={{
-                maxHeight: clientHeight,
-                maxWidth: clientWidth - 40,
-              }}
-              alt={`img-${idx}`}
-              onClick={handleImageTap} // Attach onClick handler to the image
-            />
-            <p style={{ textAlign: "center" }}>Page {idx + 1} of {mangaFeedData?.content?.data?.pages?.server1?.length}</p>
-          </div>
-        ))}
+        {console.log("asd", mangaFeedData?.load?.status)}
+        {console.log("serverdata", serverData)}
+        {serverData?.load?.status === 'loading' ? (
+          <Spinner customStyle={{ width: '450px', height: '50px' }} />
+        ) : (
+          serverData?.map((imageUrl, idx) => (
+            <div key={idx} style={{ position: "relative" }}>
+              {idx === currentImageIndex && ( // Only render the image if it matches the currentImageIndex
+                <LazyLoad height={200} offset={100}>
+                  <img
+                    referrerPolicy="no-referrer"
+                    src={imageUrl}
+                    style={{
+                      maxHeight: clientHeight,
+                      maxWidth: clientWidth - 40,
+                    }}
+                    alt={`img-${idx}`}
+                  />
+                  <p style={{ display: "block", textAlign: "center" }}>{idx + 1}/{serverData?.length}</p>
+                  <button className="left-button" onClick={handlePrevImage}>
+                    <FontAwesomeIcon icon={faChevronLeft} />
+                  </button>
+                  <button className="right-button" onClick={handleNextImage}>
+                    <FontAwesomeIcon icon={faChevronRight} />
+                  </button>
+                </LazyLoad>
+              )}
+
+
+            </div>
+          ))
+        )}
+      </div>
 
 
 
-        {/* {images && images.length > 0 ? (
+
+
+
+      {/* {images && images.length > 0 ? (
           images?.map((el, idx) => {
             if (idx + 1 === currentChapter.currImg) {
               return (
@@ -446,7 +533,6 @@ const Read = () => {
             />
           </div>
         )} */}
-      </div>
       <SideMenu options={{ menuType: "reader" }}>
         <SideReader
           data={mangaVolumes}

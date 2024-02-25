@@ -2,16 +2,16 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import styles from './chapters.module.scss';
 
-const ChapterItem = ({ chapter, mangaId, chapterId }) => {
-    const navigate = useNavigate(); // Initialize useNavigate hook
+const ChapterItem = ({ chapter, mangaId }) => {
+    const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/chapter/${chapterId}`); // Navigate to ChapterPage with chapterId
+        navigate(`/chapter/${chapter.chapterId}`); 
     };
 
     return (
         <div className={styles.chapter_item}>
-            <div className={styles.chapter_link} onClick={handleClick}> {/* Use onClick to trigger navigation */}
+            <div className={styles.chapter_link} onClick={handleClick}>
                 <div className={styles.chapter_info}>
                     <h3 className={styles.chapter_title}>{chapter.title}</h3>
                     <p className={styles.chapter_number}>Chapter {chapter.chapterNumber}</p>

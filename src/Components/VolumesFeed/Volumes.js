@@ -16,7 +16,6 @@ const Volumes = ({ mangaId, mangaInfo }) => {
     const [pages, setPages] = useState(1);
     const [currPage, setCurrPage] = useState(1);
     const [offset, setOffset] = useState(0);
-    const [chapterId, setChapterId] = useState('');
     const dispatch = useDispatch();
     // Use local state to store manga feed data
     const [mangaFeed, setMangaFeed] = useState({
@@ -37,7 +36,6 @@ const Volumes = ({ mangaId, mangaInfo }) => {
             .then(response => {
                 setMangaFeed({ load: { status: 'resolved' }, data: response.data.content.data });
                 setPages(Math.ceil(response.data.content.data[0].pages.server1.length / step));
-                setChapterId(response.data.content.data[0].chapterId);
             })
             .catch(error => {
                 console.error('Error fetching manga feed:', error);
@@ -51,10 +49,14 @@ const Volumes = ({ mangaId, mangaInfo }) => {
 
     return (
         <>
-            {mangaFeed.load.status === 'loading' || mangaFeed.load.status === '' ? (
-                <Spinner customStyle={{ width: '50px', height: '50px' }} />
-            ) : mangaFeed.load.status === 'error' ? (
-                <div>Error fetching manga feed: {mangaFeed.load.error.message}</div>
+            {mangaFeed.load.status === 'loading' && (
+                <Spinner customStyle={{ width: '50px', height: '50px' ,color: 'red'}} />
+            )}
+    
+            {mangaFeed.load.status === 'error' ? (
+                <div>
+                    <h1 style={{ textAlign: 'center', marginTop: '20px', marginBottom: '20px', color: 'red', fontWeight: 'bold', fontSize: '20px', fontFamily: 'montserrat' }}>Coming soon</h1>
+                </div>
             ) : (
                 <div className={styles.chapters}>
                     <div className={styles.controls_block}>
@@ -62,19 +64,25 @@ const Volumes = ({ mangaId, mangaInfo }) => {
                         <input className="reg-button" type="button" value="Collapse" />
                     </div>
                     <div className={styles.content_block}>
-
+    
                         {console.log('Manga feed from content block:', mangaFeed)}
                         {mangaFeed && mangaFeed.data && mangaFeed.data.map((chapter, index) => (
-                            <ChapterItem key={index} chapter={chapter} mangaId={mangaId} chapterId={chapterId}  />
+                            <ChapterItem
+                                key={index}
+                                chapter={chapter}
+                                mangaId={mangaId}
+                                mangaFeedStatus={mangaFeed.load.status} // Pass mangaFeedStatus prop
+                            />
                         ))}
-
-                        <Chapters volume={mangaFeed} mangaInfo={mangaInfo}  />
-
+    
+                        <Chapters volume={mangaFeed} mangaInfo={mangaInfo} />
+    
                     </div>
                 </div>
             )}
         </>
     );
+    
 };
 
 export default Volumes;
