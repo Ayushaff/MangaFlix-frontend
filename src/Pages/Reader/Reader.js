@@ -388,6 +388,7 @@ const Read = () => {
           <div key={idx} style={{ display: idx === currentImageIndex ? "block" : "none" }}>
             <img
               referrerPolicy="no-referrer"
+              
               src={imageUrl}
               style={{
                 maxHeight: clientHeight,
