@@ -34,6 +34,7 @@ const Titles = memo(({ hasFilter = true, customTitle = '', handleManga }) => {
 	const params = useParams();
 	const [groupedTags, setGroupedTags] = useState([]);
 	const [manga,setManga] = useState([]);
+	const [genre,setGenre] = useState([]);
 	const [selected, setSelected] = useState({
 		name: 'Best Match',
 		val: 'relevance.desc',
@@ -75,9 +76,12 @@ const Titles = memo(({ hasFilter = true, customTitle = '', handleManga }) => {
 	useEffect(() => {
 		console.log("POPO");
 		(async () => {
-			const resp = await MangaflixApi.getAllManga();
-			console.log("RESPEKT",resp);
-			setManga(resp.content.data);
+			const mangas = await MangaflixApi.getAllManga();
+			console.log(mangas);
+			setManga(mangas.content.data);
+			const genres = await MangaflixApi.getAllGenre();
+			console.log("GENREOOO",genres);
+			setGenre(genres.content.data);
 			const data = await fetchTitleVariable(params['*']);
 			dispatch(setMangaIds(data.data.map((item) => item?.id) ?? []));
 		})();
@@ -127,7 +131,7 @@ const Titles = memo(({ hasFilter = true, customTitle = '', handleManga }) => {
 			<Helmet>
 				<meta charSet="utf-8" />
 				<title>Manga | Searching</title>
-				<meta name="description" content={`MangaDex manga searching}`} />
+				<meta name="description" content={`Mangaflix manga searching}`} />
 			</Helmet>
 			{/* <PageArrowLink
 				title={customTitle ? customTitle : pageTitle}
@@ -136,8 +140,9 @@ const Titles = memo(({ hasFilter = true, customTitle = '', handleManga }) => {
 			/> */}
 			<div style={{height : "10px"}}/>
 			{pageTitle === 'Advanced Search' ? (
+				genre.length === 0 ? <Spinner></Spinner>:
 				<FilterTitles
-					tags={groupedTags}
+					tags={genre}
 					selected={selected}
 					hasFilter={hasFilter}
 				/>
