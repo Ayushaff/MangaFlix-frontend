@@ -1,7 +1,7 @@
 import axios from "axios";
 class MangaflixApi {
     CorsProxy = 'https://web-production-3f96.up.railway.app/';
-    baseUrl = `${this.CorsProxy}http://51.161.35.231:8959`;
+    baseUrl = `http://51.161.35.231:8959`;
 
     getAllManga = async (page="",limit="",search="") => {
         try {
@@ -37,6 +37,22 @@ class MangaflixApi {
 
         }catch(error){
             throw new Error("failed to fetch managa ",error);
+        }
+    }
+    getAllGenre = async (page="",limit="",search="") => {
+        try {
+            const authToken = localStorage.getItem("auth-token");
+            const response = await axios.get(
+                `${this.baseUrl}/v1/genre?page=${page}&limit=${limit}&search=${search}`,
+                {
+                    headers: {
+                        "x-auth-token": authToken,
+                    },
+                }
+            );
+            return response.data;
+        } catch (error) {
+            throw new Error("failed to fetch genre ",error);
         }
     }
     // getCoverById = async (coverId)=>{`
