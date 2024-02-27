@@ -15,6 +15,7 @@ const SideReader = ({
   currImg,
   maxImg,
   handleImage,
+  serverData,
 }) => {
   const [selected, setSelected] = useState("");
   const [pageSelected, setPageSelected] = useState(1);

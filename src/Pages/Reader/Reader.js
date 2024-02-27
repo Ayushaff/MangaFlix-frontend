@@ -541,6 +541,7 @@ const Read = () => {
           mangaTitle={mangaTitle}
           currImg={currentChapter.currImg}
           maxImg={currentChapter.maxImg}
+          serverData={serverData}
           handleImage={handleImage}
         />
       </SideMenu>
